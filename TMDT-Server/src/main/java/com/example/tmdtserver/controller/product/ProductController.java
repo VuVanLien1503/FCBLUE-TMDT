@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.*;
 public class ProductController {
     @Autowired
     private IProductService productService;
-    @GetMapping("/shop")
-    public ResponseEntity<Page<Product>> listProductOfShop(@RequestBody Shop shop,
+    @GetMapping("/shop/{id}")
+    public ResponseEntity<Page<Product>> listProductOfShop(@PathVariable("id") Long id,
                                                            @PageableDefault(size = 5)Pageable pageable){
-        Page<Product> products = productService.showProductOfShop(shop.getId(),pageable);
+        Page<Product> products = productService.showProductOfShop(id,pageable);
         if (products.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
