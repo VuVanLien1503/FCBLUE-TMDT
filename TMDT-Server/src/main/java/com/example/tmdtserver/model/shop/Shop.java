@@ -1,5 +1,6 @@
-package com.example.tmdtserver.model;
+package com.example.tmdtserver.model.shop;
 
+import com.example.tmdtserver.model.Account;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,8 +21,6 @@ public class Shop {
     private String description;
     private boolean status=true;
 
-    @ManyToOne
-    private Product product;
     @OneToOne
     private Account account;
 

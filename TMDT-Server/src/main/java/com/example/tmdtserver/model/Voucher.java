@@ -1,6 +1,7 @@
 package com.example.tmdtserver.model;
 
 
+import com.example.tmdtserver.model.shop.Shop;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
