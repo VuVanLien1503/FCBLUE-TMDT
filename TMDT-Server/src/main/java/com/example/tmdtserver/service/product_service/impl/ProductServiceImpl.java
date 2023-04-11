@@ -1,6 +1,7 @@
 package com.example.tmdtserver.service.product_service.impl;
 
 import com.example.tmdtserver.model.Product;
+import com.example.tmdtserver.model.shop.Shop;
 import com.example.tmdtserver.repository.IProductRepository;
 import com.example.tmdtserver.service.product_service.my_interface.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public Product save(Product product) {
-        return null;
+        return productRepository.save(product);
     }
 
     @Override
@@ -37,4 +38,5 @@ public class ProductServiceImpl implements IProductService {
     public Page<Product> showProductOfShop(Long id, Pageable pageable) {
         return productRepository.showProductOfShop(id,pageable);
     }
+
 }

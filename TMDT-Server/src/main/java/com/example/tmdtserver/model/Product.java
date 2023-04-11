@@ -1,5 +1,6 @@
 package com.example.tmdtserver.model;
 
+import com.example.tmdtserver.model.shop.Shop;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,6 +30,9 @@ public class Product {
 
     @ManyToOne
     private Category category;
+
+    @ManyToOne
+    private Shop shop;
 
     private Boolean status= true;
 

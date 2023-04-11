@@ -37,5 +37,15 @@ public class ShopController {
     public ResponseEntity<Shop> createShop(@RequestBody Shop shop){
         return new ResponseEntity<>(shopService.save(shop),HttpStatus.CREATED);
     }
+
+    //Truy xuat 1 shop
+    @GetMapping("/{id}")
+    public ResponseEntity<Shop> findById(@PathVariable("id")Long id){
+        Shop shop = shopService.findById(id);
+        if (shop==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(shop,HttpStatus.OK);
+    }
 }
 
