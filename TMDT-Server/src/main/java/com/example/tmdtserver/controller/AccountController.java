@@ -30,6 +30,7 @@ public class AccountController {
 
     @PostMapping(value = "/save")
     public ResponseEntity<Account> checkCode(@RequestBody() Account account) {
+        accountService.save(account);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
