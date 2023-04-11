@@ -1,0 +1,41 @@
+INSERT INTO `tmdt_fcblue`.`role` (`name`, `status`)  VALUES ('ADMIN',1);
+INSERT INTO `tmdt_fcblue`.`role` (`name`, `status`) VALUES ('SUPPLIER',1);
+INSERT INTO `tmdt_fcblue`.`role` (`name`, `status`)  VALUES ('USER',1);
+
+INSERT INTO `tmdt_fcblue`.`category`  (`name`, `status`) VALUES ('Thời Trang',1);
+INSERT INTO `tmdt_fcblue`.`category`  (`name`, `status`) VALUES ('Điện Thoại & Phụ Kiện',1);
+INSERT INTO `tmdt_fcblue`.`category` (`name`, `status`) VALUES ('Thiết Bị Điện Tử',1);
+INSERT INTO `tmdt_fcblue`.`category`  (`name`, `status`) VALUES ('Đồ Gia Dụng',1);
+INSERT INTO `tmdt_fcblue`.`category`  (`name`, `status`) VALUES ('Đồ Chơi',1);
+INSERT INTO `tmdt_fcblue`.`category`  (`name`, `status`) VALUES ('Hàng Tiêu Dùng',1);
+
+INSERT INTO `tmdt_fcblue`.`users` (`address`, `email`, `name`, `password`, `phone`) VALUES ('HN', 'hoang@gmail.com', 'hoang', '123456', '0987654321');
+INSERT INTO `tmdt_fcblue`.`users` (`address`, `email`, `name`, `password`, `phone`) VALUES ('ND', 'lien@gmail.com', 'lien', '123456', '1234567890');
+INSERT INTO `tmdt_fcblue`.`users` (`address`, `email`, `name`, `password`, `phone`) VALUES ('TN', 'thang', 'thang@gmail.com', '123456', '1234509876');
+
+INSERT INTO `tmdt_fcblue`.`account` (`status`, `role_id`, `users_id`) VALUES (1, '1', '1');
+INSERT INTO `tmdt_fcblue`.`account` (`status`, `role_id`, `users_id`) VALUES (1, '2', '2');
+INSERT INTO `tmdt_fcblue`.`account` (`status`, `role_id`, `users_id`) VALUES (1, '3', '3');
+
+INSERT INTO `tmdt_fcblue`.`image` (`path`, `status`) VALUES ('abc1', 1);
+INSERT INTO `tmdt_fcblue`.`image` (`path`, `status`) VALUES ('abc2', 1);
+INSERT INTO `tmdt_fcblue`.`image` (`path`, `status`) VALUES ('abc3', 1);
+
+INSERT INTO `tmdt_fcblue`.`product` (`description`, `name`, `price`, `quantity`, `status`, `category_id`, `image_path_id`) VALUES ('Tot', 'SP1', '11000', '100', 1, '1', '1');
+INSERT INTO `tmdt_fcblue`.`product` (`description`, `name`, `price`, `quantity`, `status`, `category_id`, `image_path_id`) VALUES ('Tot', 'SP2', '20000', '50', 1, '2', '2');
+
+INSERT INTO `tmdt_fcblue`.`shop` (`description`, `name`, `status`, `account_id`, `product_id`) VALUES ('gia dung', 'Shop1', 1, '2', '1');
+INSERT INTO `tmdt_fcblue`.`shop` (`description`, `name`, `status`, `account_id`, `product_id`) VALUES ('điện tử', 'Shop2', 1, '3', '2');
+
+INSERT INTO `tmdt_fcblue`.`cart` (`account_id`, `product_id`) VALUES ('2', '1');
+INSERT INTO `tmdt_fcblue`.`cart` (`account_id`, `product_id`) VALUES ('2', '2');
+INSERT INTO `tmdt_fcblue`.`cart` (`account_id`, `product_id`) VALUES ('3', '1');
+
+INSERT INTO `tmdt_fcblue`.`bill` (`date`, `account_id`, `shop_id`) VALUES ('10/04/2023', '2', '1');
+INSERT INTO `tmdt_fcblue`.`bill` (`date`, `account_id`, `shop_id`) VALUES ('10/04/2023', '2', '1');
+INSERT INTO `tmdt_fcblue`.`bill` (`date`, `account_id`, `shop_id`) VALUES ('10/04/2023', '3', '2');
+
+
+INSERT INTO `tmdt_fcblue`.`bill_detail` (`quantity`, `bill_id`, `product_id`) VALUES ('10', '1', '1');
+INSERT INTO `tmdt_fcblue`.`bill_detail` (`quantity`, `bill_id`, `product_id`) VALUES ('20', '1', '2');
+
