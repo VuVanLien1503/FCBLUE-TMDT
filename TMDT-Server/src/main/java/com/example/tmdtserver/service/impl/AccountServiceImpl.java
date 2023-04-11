@@ -37,14 +37,9 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public boolean save( String inputCode, Account account) {
-        boolean check = true;
-        if (code.equals(inputCode)) {
-            iAccountRepository.save(account);
-        } else {
-            check = false;
-        }
-        return check;
+    public void save(Account account) {
+        iAccountRepository.save(account);
+
     }
 
     @Override
