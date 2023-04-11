@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/FCBLUE-TMDT.iml" filepath="$PROJECT_DIR$/.idea/FCBLUE-TMDT.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TMDT-Server.iml" filepath="$PROJECT_DIR$/.idea/modules/TMDT-Server.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/TMDT-Server.main.iml" filepath="$PROJECT_DIR$/.idea/modules/TMDT-Server.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TMDT-Server.test.iml" filepath="$PROJECT_DIR$/.idea/modules/TMDT-Server.test.iml" />
     </modules>
   </component>
 </project>
