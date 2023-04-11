@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/FCBlue.iml" filepath="$PROJECT_DIR$/.idea/FCBlue.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/TMDT-Server.main.iml" filepath="$PROJECT_DIR$/.idea/modules/TMDT-Server.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TMDT-Server.test.iml" filepath="$PROJECT_DIR$/.idea/modules/TMDT-Server.test.iml" />
     </modules>
   </component>
 </project>
