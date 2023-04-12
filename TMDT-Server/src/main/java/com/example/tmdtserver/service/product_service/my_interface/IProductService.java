@@ -8,4 +8,5 @@ import org.springframework.data.repository.query.Param;
 
 public interface IProductService extends ICrudService<Product> {
     Page<Product> showProductOfShop(Long id, Pageable pageable);
+
 }

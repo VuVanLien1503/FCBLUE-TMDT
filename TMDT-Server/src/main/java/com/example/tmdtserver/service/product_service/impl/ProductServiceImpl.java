@@ -16,7 +16,7 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public Page<Product> findALl(Pageable pageable) {
-        return null;
+        return productRepository.showAllProduct(pageable);
     }
 
     @Override

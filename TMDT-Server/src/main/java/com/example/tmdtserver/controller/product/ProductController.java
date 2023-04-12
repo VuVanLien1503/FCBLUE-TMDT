@@ -21,6 +21,7 @@ public class ProductController {
     private IProductService productService;
     @Autowired
     private IShopService shopService;
+    //Hiển thị tất cả sản phẩm trong 1 shop.
     @GetMapping("/shop/{id}")
     public ResponseEntity<Page<Product>> listProductOfShop(@PathVariable("id") Long id,
                                                            @PageableDefault(size = 5)Pageable pageable){
@@ -39,4 +40,13 @@ public class ProductController {
         return new ResponseEntity<>(productService.save(product),HttpStatus.CREATED);
     }
 
+//    Hiển thị tất cả sản phẩm trên trang chủ
+    @GetMapping
+    public ResponseEntity<Page<Product>> findAll(@PageableDefault(size = 5)Pageable pageable){
+        Page<Product> products = productService.findALl(pageable);
+        if (products.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(products,HttpStatus.OK);
+    }
 }
