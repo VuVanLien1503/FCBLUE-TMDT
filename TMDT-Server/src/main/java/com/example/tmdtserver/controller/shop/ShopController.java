@@ -1,9 +1,11 @@
 package com.example.tmdtserver.controller.shop;
 
 import com.example.tmdtserver.model.Product;
+import com.example.tmdtserver.model.Voucher;
 import com.example.tmdtserver.model.shop.Shop;
 import com.example.tmdtserver.service.product_service.my_interface.IProductService;
 import com.example.tmdtserver.service.shop_service.my_interface.IShopService;
+import com.example.tmdtserver.service.voucher_service.IVoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +22,8 @@ public class ShopController {
     private IShopService shopService;
     @Autowired
     private IProductService productService;
+    @Autowired
+    private IVoucherService voucherService;
 
     //    Hiển thị tất cả các shop đang có
     @GetMapping
@@ -48,6 +52,13 @@ public class ShopController {
         return new ResponseEntity<>(shop,HttpStatus.OK);
     }
 
-
+//    Tạo voucher của shop
+    @PostMapping("/{id}/voucher")
+    public ResponseEntity<Voucher> saveVoucher(@PathVariable("id")Long id,
+                                               @RequestBody Voucher voucher){
+        Shop shop = shopService.findById(id);
+        voucher.setShop(shop);
+        return new ResponseEntity<>(voucherService.save(voucher),HttpStatus.CREATED);
+    }
 }
 
