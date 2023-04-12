@@ -2,7 +2,9 @@ package com.example.tmdtserver.controller.product;
 
 import com.example.tmdtserver.model.Product;
 import com.example.tmdtserver.model.shop.Shop;
+import com.example.tmdtserver.repository.IShopRepository;
 import com.example.tmdtserver.service.product_service.my_interface.IProductService;
+import com.example.tmdtserver.service.shop_service.my_interface.IShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 public class ProductController {
     @Autowired
     private IProductService productService;
+    @Autowired
+    private IShopService shopService;
     @GetMapping("/shop/{id}")
     public ResponseEntity<Page<Product>> listProductOfShop(@PathVariable("id") Long id,
                                                            @PageableDefault(size = 5)Pageable pageable){
@@ -25,6 +29,14 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(products,HttpStatus.OK);
+    }
+
+//    Tạo mới 1 sản phẩm
+    @PostMapping("/shop/{id}")
+    public ResponseEntity<Product> createProduct(@PathVariable("id")Long id,@RequestBody Product product){
+        Shop shop = shopService.findById(id);
+        product.setShop(shop);
+        return new ResponseEntity<>(productService.save(product),HttpStatus.CREATED);
     }
 
 }

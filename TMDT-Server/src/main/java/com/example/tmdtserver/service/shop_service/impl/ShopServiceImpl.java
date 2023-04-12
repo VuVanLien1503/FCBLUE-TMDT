@@ -1,5 +1,4 @@
 package com.example.tmdtserver.service.shop_service.impl;
-
 import com.example.tmdtserver.model.shop.Shop;
 import com.example.tmdtserver.repository.IShopRepository;
 import com.example.tmdtserver.service.shop_service.my_interface.IShopService;
@@ -29,6 +28,6 @@ public class ShopServiceImpl implements IShopService {
 
     @Override
     public void remove(Long id) {
-
+        shopRepository.deleteById(id);
     }
 }

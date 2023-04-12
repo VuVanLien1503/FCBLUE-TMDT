@@ -26,12 +26,12 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public Product findById(Long id) {
-        return null;
+        return productRepository.findById(id).orElse(null);
     }
 
     @Override
     public void remove(Long id) {
-
+        productRepository.deleteById(id);
     }
 
     @Override
