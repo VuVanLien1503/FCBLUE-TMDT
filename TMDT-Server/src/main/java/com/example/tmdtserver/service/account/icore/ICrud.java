@@ -1,4 +1,4 @@
-package com.example.tmdtserver.service.icore;
+package com.example.tmdtserver.service.account.icore;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,5 +10,6 @@ public interface ICrud<E> {
 
     void delete(Long id);
 
-    String randomCode(E e);
+    String randomCode(String email);
+    E findByEmail(String email);
 }

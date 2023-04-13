@@ -1,4 +1,4 @@
-package com.example.tmdtserver.service;
+package com.example.tmdtserver.service.account;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
