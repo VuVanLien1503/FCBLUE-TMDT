@@ -39,14 +39,14 @@ public class AccountServiceImpl implements IAccountService {
 //        Users users = iUserService.findByEmail(email);
         String content = "Xin Chào ...!\n" +
                 "Bạn hoặc ai đó đẫ dùng email này để đăng ký tài khoản ở trung tâm TMDT-FC-BLUE\n" +
-                "MÃ XÁC NHẬN CỦA BẠN LÀ  : " + text + "\n" +
                 "\n" +
+                "MÃ XÁC NHẬN CỦA BẠN LÀ  : " + text + "\n" +
                 "\n" +
                 "--------------------------------------\n" +
                 " + Phone  : (+084)088.888.888\n" +
                 " + Email  : fc.blue.codegym.vn@gmail.com\n" +
                 " + Address: Lô TT-04 Số 23 Khu Đô Thị MonCity\n";
-        emailService.sendMail(to, subject, content + text);
+        emailService.sendMail(to, subject, content);
         return text;
 
     }
