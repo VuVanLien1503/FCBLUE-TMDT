@@ -22,4 +22,9 @@ public class Account {
 
     private boolean status=true;
 
+    public Account(Role role, Users users, boolean status) {
+        this.role = role;
+        this.users = users;
+        this.status = status;
+    }
 }
