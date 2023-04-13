@@ -67,4 +67,8 @@ public class AccountServiceImpl implements IAccountService {
         return null;
     }
 
+    @Override
+    public Account findAccountByEmail(String email) {
+        return iAccountRepository.findAccountByEmail(email);
+    }
 }

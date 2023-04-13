@@ -12,4 +12,5 @@ public interface ICrud<E> {
 
     String randomCode(String email);
     E findByEmail(String email);
+
 }
