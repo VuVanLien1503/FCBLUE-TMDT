@@ -71,4 +71,9 @@ public class AccountServiceImpl implements IAccountService {
     public Account findAccountByEmail(String email) {
         return iAccountRepository.findAccountByEmail(email);
     }
+
+    @Override
+    public Users findUserByAccount(Long id) {
+        return iAccountRepository.findUserByAccount(id);
+    }
 }

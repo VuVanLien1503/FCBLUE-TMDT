@@ -59,9 +59,15 @@ public class AccountController {
     }
 
     @PostMapping(value = "/login")
-    public ResponseEntity<Map<String,Object>> login(@RequestBody() Users users) {
+    public ResponseEntity<Map<String, Object>> login(@RequestBody() Users users) {
         HashMap<String, Object> hashMap = (HashMap<String, Object>) userService.login(users);
-        return new ResponseEntity<>(hashMap,HttpStatus.OK);
+        return new ResponseEntity<>(hashMap, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Users> findUserByAccount(@PathVariable("id") Long id) {
+        Users users = accountService.findUserByAccount(id);
+        return new ResponseEntity<>(users,HttpStatus.OK);
     }
 
 }
