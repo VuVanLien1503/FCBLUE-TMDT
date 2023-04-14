@@ -52,26 +52,26 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public Map login(Users users) {
+        Account account = null;
+        Shop shop = null;
         HashMap<String, Object> hashMap = new HashMap<>();
         String text = "";
         Users users1 = findByEmail(users.getEmail());
-        Account account= accountRepository.findAccountByEmail(users1.getEmail());
-        Shop shop=shopRepository.findShopByAccount(account.getId());
         if (users1 != null) {
             if (users1.getPassword().equals(users.getPassword())) {
+                account = accountRepository.findAccountByEmail(users1.getEmail());
+                shop = shopRepository.findShopByAccount(account.getId());
                 text = "Đăng Nhập Thành Công";
-                hashMap.put("text", text);
-                hashMap.put("account", account);
-                hashMap.put("shop",shop);
+
             } else {
                 text = "Mật Khẩu Không Chính Xác";
-                hashMap.put("text", text);
             }
         } else {
             text = "Email Không Tồn Tại";
-            hashMap.put("text", text);
         }
-
+        hashMap.put("text", text);
+        hashMap.put("account", account);
+        hashMap.put("shop", shop);
         return hashMap;
     }
 }
