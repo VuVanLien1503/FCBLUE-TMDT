@@ -23,7 +23,7 @@ public class ShopServiceImpl implements IShopService {
 
     @Override
     public Shop findById(Long id) {
-        return shopRepository.findById(id).orElse(null);
+        return shopRepository.findShopByAccount(id);
     }
 
     @Override

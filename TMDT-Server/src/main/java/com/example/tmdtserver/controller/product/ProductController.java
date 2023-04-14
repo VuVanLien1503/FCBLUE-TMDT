@@ -25,7 +25,8 @@ public class ProductController {
     @GetMapping("/shop/{id}")
     public ResponseEntity<Page<Product>> listProductOfShop(@PathVariable("id") Long id,
                                                            @PageableDefault(size = 5)Pageable pageable){
-        Page<Product> products = productService.showProductOfShop(id,pageable);
+        Shop shop  = shopService.findById(id);
+        Page<Product> products = productService.showProductOfShop(shop.getId(),pageable);
         if (products.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
