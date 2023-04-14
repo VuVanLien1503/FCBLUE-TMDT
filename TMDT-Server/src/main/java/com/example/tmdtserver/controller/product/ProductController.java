@@ -24,7 +24,7 @@ public class ProductController {
     //Hiển thị tất cả sản phẩm trong 1 shop.
     @GetMapping("/shop/{id}")
     public ResponseEntity<Page<Product>> listProductOfShop(@PathVariable("id") Long id,
-                                                           @PageableDefault(size = 5)Pageable pageable){
+                                                           @PageableDefault(size = 12)Pageable pageable){
         Page<Product> products = productService.showProductOfShop(id,pageable);
         if (products.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
