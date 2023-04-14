@@ -1,8 +1,10 @@
 package com.example.tmdtserver.controller.shop;
 
+import com.example.tmdtserver.model.Category;
 import com.example.tmdtserver.model.Product;
 import com.example.tmdtserver.model.Voucher;
 import com.example.tmdtserver.model.shop.Shop;
+import com.example.tmdtserver.service.category_service.ICategoryService;
 import com.example.tmdtserver.service.product_service.my_interface.IProductService;
 import com.example.tmdtserver.service.shop_service.my_interface.IShopService;
 import com.example.tmdtserver.service.voucher_service.IVoucherService;
@@ -14,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/home/shops")
@@ -24,6 +28,9 @@ public class ShopController {
     private IProductService productService;
     @Autowired
     private IVoucherService voucherService;
+
+    @Autowired
+    private ICategoryService categoryService;
 
     //    Hiển thị tất cả các shop đang có
     @GetMapping
@@ -59,6 +66,17 @@ public class ShopController {
         Shop shop = shopService.findById(id);
         voucher.setShop(shop);
         return new ResponseEntity<>(voucherService.save(voucher),HttpStatus.CREATED);
+    }
+
+    // Truy xuất Category của 1 shop
+    @GetMapping("/{id}/categories")
+    public ResponseEntity<List<Category>> findCategoryOfShop(@PathVariable("id")Long id){
+        Shop shop = shopService.findById(id);
+        List<Category> categories = categoryService.findCategoryOfShop(shop.getId());
+        if (categories.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(categories,HttpStatus.OK);
     }
 }
 

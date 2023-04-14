@@ -19,6 +19,11 @@ public class CategoryServiceImpl implements ICategoryService{
     }
 
     @Override
+    public List<Category> findCategoryOfShop(Long id) {
+        return categoryRepository.findCategoryOfShop(id);
+    }
+
+    @Override
     public Page<Category> findALl(Pageable pageable) {
         return null;
     }

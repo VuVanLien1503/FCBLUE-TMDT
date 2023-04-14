@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ICategoryService extends ICrudService<Category> {
     List<Category> showAllCategory();
+    List<Category> findCategoryOfShop(Long id);
 }
