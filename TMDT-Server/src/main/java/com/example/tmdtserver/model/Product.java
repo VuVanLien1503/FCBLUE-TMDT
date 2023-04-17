@@ -22,8 +22,8 @@ public class Product {
     private Double price;
     private Long quantity;
     private String description;
-    @ManyToOne
-    private Image imagePath;
+    @ElementCollection
+    private List<String> imagePath;
 
     @ElementCollection
     private List<Long> evaluate;  // đánh giá

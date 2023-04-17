@@ -23,11 +23,16 @@ public class ShopServiceImpl implements IShopService {
 
     @Override
     public Shop findById(Long id) {
-        return shopRepository.findShopByAccount(id);
+        return shopRepository.findById(id).orElse(null);
     }
 
     @Override
     public void remove(Long id) {
         shopRepository.deleteById(id);
+    }
+
+    @Override
+    public Shop findByIdAccount(Long id) {
+        return shopRepository.findShopByAccount(id);
     }
 }

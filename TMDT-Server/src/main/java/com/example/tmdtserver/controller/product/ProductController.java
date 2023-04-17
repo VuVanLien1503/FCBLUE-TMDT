@@ -25,7 +25,7 @@ public class ProductController {
     @GetMapping("/shop/{id}")
     public ResponseEntity<Page<Product>> listProductOfShop(@PathVariable("id") Long id,
                                                            @PageableDefault(size = 12)Pageable pageable){
-        Shop shop  = shopService.findById(id);
+        Shop shop  = shopService.findByIdAccount(id);
         Page<Product> products = productService.showProductOfShop(shop.getId(),pageable);
         if (products.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -36,7 +36,7 @@ public class ProductController {
 //    Tạo mới 1 sản phẩm
     @PostMapping("/shop/{id}")
     public ResponseEntity<Product> createProduct(@PathVariable("id")Long id,@RequestBody Product product){
-        Shop shop = shopService.findById(id);
+        Shop shop = shopService.findByIdAccount(id);
         product.setShop(shop);
         return new ResponseEntity<>(productService.save(product),HttpStatus.CREATED);
     }
