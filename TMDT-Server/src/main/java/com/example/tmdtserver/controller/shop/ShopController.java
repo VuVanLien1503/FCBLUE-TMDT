@@ -52,7 +52,7 @@ public class ShopController {
     //Truy xuat 1 shop
     @GetMapping("/{id}")
     public ResponseEntity<Shop> findById(@PathVariable("id")Long id){
-        Shop shop = shopService.findById(id);
+        Shop shop = shopService.findByIdAccount(id);
         if (shop==null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -63,7 +63,7 @@ public class ShopController {
     @PostMapping("/{id}/voucher")
     public ResponseEntity<Voucher> saveVoucher(@PathVariable("id")Long id,
                                                @RequestBody Voucher voucher){
-        Shop shop = shopService.findById(id);
+        Shop shop = shopService.findByIdAccount(id);
         voucher.setShop(shop);
         return new ResponseEntity<>(voucherService.save(voucher),HttpStatus.CREATED);
     }
@@ -71,12 +71,23 @@ public class ShopController {
     // Truy xuất Category của 1 shop
     @GetMapping("/{id}/categories")
     public ResponseEntity<List<Category>> findCategoryOfShop(@PathVariable("id")Long id){
-        Shop shop = shopService.findById(id);
+        Shop shop = shopService.findByIdAccount(id);
         List<Category> categories = categoryService.findCategoryOfShop(shop.getId());
         if (categories.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(categories,HttpStatus.OK);
     }
+
+    //Truy xuất thông tin chi tiết của 1 shop theo id shop
+    @GetMapping("/product")
+    public ResponseEntity<Shop> findByIdShop(@RequestBody Product product){
+        Shop shop = shopService.findById(product.getShop().getId());
+        if (shop == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(shop,HttpStatus.OK);
+    }
+
 }
 
