@@ -8,4 +8,6 @@ public interface IAccountService extends ICrud<Account> {
     Account findAccountByEmail(String email);
 
     Users findUserByAccount(Long id);
+
+    Account findById(Long id);
 }
