@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 @Transactional
@@ -21,4 +22,8 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
     @Query(value = "select p from Product p where p.status =true")
     Page<Product> showAllProduct(Pageable pageable);
 
+    //Hiển thị tất cả sản phẩm có trong giỏ hàng
+    @Query(value = "select p from Product p " +
+            "join ProductCart pc on p.id = pc.product.id join Cart c on c.id = pc.cart.id where c.account.id = :id")
+    List<Product> showProductOfCart(@Param("id")Long id);
 }

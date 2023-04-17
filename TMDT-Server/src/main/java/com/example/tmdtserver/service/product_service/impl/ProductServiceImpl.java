@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductServiceImpl implements IProductService {
     @Autowired
@@ -37,6 +39,11 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public Page<Product> showProductOfShop(Long id, Pageable pageable) {
         return productRepository.showProductOfShop(id,pageable);
+    }
+
+    @Override
+    public List<Product> showProductOfCart(Long id) {
+        return productRepository.showProductOfCart(id);
     }
 
 }

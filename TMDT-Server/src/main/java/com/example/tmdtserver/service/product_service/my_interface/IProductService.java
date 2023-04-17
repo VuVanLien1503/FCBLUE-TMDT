@@ -6,7 +6,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface IProductService extends ICrudService<Product> {
     Page<Product> showProductOfShop(Long id, Pageable pageable);
+
+    List<Product> showProductOfCart(Long id);
 
 }
