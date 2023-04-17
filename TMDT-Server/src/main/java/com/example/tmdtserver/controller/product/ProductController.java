@@ -50,4 +50,14 @@ public class ProductController {
         }
         return new ResponseEntity<>(products,HttpStatus.OK);
     }
+
+//    Hiển thị chi tiết 1 sản phẩm
+    @GetMapping("/{id}")
+    public ResponseEntity<Product> findById(@PathVariable("id")Long id){
+        Product product = productService.findById(id);
+        if (product == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(product,HttpStatus.OK);
+    }
 }
