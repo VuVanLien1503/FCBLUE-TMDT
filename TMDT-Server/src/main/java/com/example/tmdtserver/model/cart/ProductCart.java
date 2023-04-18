@@ -26,5 +26,6 @@ public class ProductCart {
     @MapsId(value = "cartId")
     private Cart cart ;
 
+    private Double quantity;
 
 }
