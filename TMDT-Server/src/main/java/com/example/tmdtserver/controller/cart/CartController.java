@@ -3,8 +3,10 @@ package com.example.tmdtserver.controller.cart;
 import com.example.tmdtserver.model.Account;
 import com.example.tmdtserver.model.Product;
 import com.example.tmdtserver.model.cart.Cart;
+import com.example.tmdtserver.model.cart.ProductCart;
 import com.example.tmdtserver.service.account.IAccountService;
 import com.example.tmdtserver.service.cart.my_interface.ICartService;
+import com.example.tmdtserver.service.cart.my_interface.IProductCartService;
 import com.example.tmdtserver.service.product_service.my_interface.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -24,6 +26,8 @@ public class CartController {
     private IAccountService accountService;
     @Autowired
     private IProductService productService;
+    @Autowired
+    private IProductCartService productCartService;
 
     //Tạo mới một giỏ hàng
     @PostMapping("{id}")
@@ -47,4 +51,11 @@ public class CartController {
         }
         return new ResponseEntity<>(products,HttpStatus.OK);
     }
+
+//    Thêm sản phẩm vào giỏ hàng
+    @PostMapping()
+    public ResponseEntity<ProductCart> addProductToCart(@RequestBody ProductCart productCart){
+        return new ResponseEntity<>(productCartService.save(productCart),HttpStatus.OK);
+    }
 }
+
