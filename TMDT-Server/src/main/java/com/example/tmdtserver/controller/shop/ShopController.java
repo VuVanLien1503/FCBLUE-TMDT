@@ -79,9 +79,9 @@ public class ShopController {
         return new ResponseEntity<>(categories,HttpStatus.OK);
     }
 
-    //Truy xuất thông tin chi tiết của 1 shop theo id shop
+    //Truy xuất thông tin chi tiết của 1 shop theo id product
     @GetMapping("/product/{id}")
-    public ResponseEntity<Shop> findByIdShop(@PathVariable("id")Long id){
+    public ResponseEntity<Shop> findByIdProduct(@PathVariable("id")Long id){
         Product product = productService.findById(id);
         Shop shop = shopService.findById(product.getShop().getId());
         if (shop == null){
@@ -89,6 +89,14 @@ public class ShopController {
         }
         return new ResponseEntity<>(shop,HttpStatus.OK);
     }
-
+    //Truy xuất thông tin chi tiết của 1 shop theo id product
+    @GetMapping("/information/{id}")
+    public ResponseEntity<Shop> findByIdShop(@PathVariable("id")Long id){
+        Shop shop = shopService.findById(id);
+        if (shop == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(shop,HttpStatus.OK);
+    }
 }
 
