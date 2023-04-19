@@ -98,5 +98,16 @@ public class ShopController {
         }
         return new ResponseEntity<>(shop,HttpStatus.OK);
     }
+
+    // Hủy sản phẩm trên shop của mình (id của product)
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Product> deleteProduct(@PathVariable("id")Long id){
+        Product product = productService.findById(id);
+        if (product!=null){
+            productService.remove(id);
+            return new ResponseEntity<>(product,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }
 

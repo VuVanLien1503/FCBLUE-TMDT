@@ -31,5 +31,5 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
 //    Xóa sản phẩm có trong shop
     @Modifying
     @Query(value = "UPDATE Product p  set p.status = false where p.id = :id")
-    Product deleteProductByIdProduct(@Param("id")Long id);
+    void deleteProductByIdProduct(@Param("id")Long id);
 }
