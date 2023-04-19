@@ -81,4 +81,9 @@ public class AccountServiceImpl implements IAccountService {
     public Account findById(Long id) {
         return iAccountRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public Account findAccountByIdShop(Long id) {
+        return iAccountRepository.findAccountByIdShop(id);
+    }
 }

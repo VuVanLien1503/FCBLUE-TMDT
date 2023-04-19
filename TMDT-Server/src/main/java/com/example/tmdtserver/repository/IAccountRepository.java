@@ -18,4 +18,7 @@ public interface IAccountRepository extends JpaRepository<Account, Long> {
     @Query(value = "select u from Users u join Account a on u.id=a.users.id where a.id = :id")
     Users findUserByAccount(@Param("id") Long id);
 
+    @Query(value = "select a from Account a join Shop s on a.id = s.account.id where s.id = :id")
+    Account findAccountByIdShop(@Param("id") Long id);
+
 }

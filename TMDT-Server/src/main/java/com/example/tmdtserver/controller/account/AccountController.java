@@ -76,4 +76,10 @@ public class AccountController {
         return new ResponseEntity<>(users,HttpStatus.OK);
     }
 
+    @GetMapping(value = "/information/{id}")
+    public ResponseEntity<Account> findAccountByIdShop(@PathVariable("id") Long id) {
+        Account account = accountService.findAccountByIdShop(id);
+        return new ResponseEntity<>(account,HttpStatus.OK);
+    }
+
 }
