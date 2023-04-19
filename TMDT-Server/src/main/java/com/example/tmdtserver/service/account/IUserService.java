@@ -7,4 +7,6 @@ import java.util.Map;
 
 public interface IUserService extends ICrud<Users> {
     Map login(Users users);
+    Users findByIdShop(Long id);
+
 }

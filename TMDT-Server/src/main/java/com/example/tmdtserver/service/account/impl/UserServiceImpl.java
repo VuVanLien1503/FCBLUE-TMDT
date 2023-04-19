@@ -74,4 +74,9 @@ public class UserServiceImpl implements IUserService {
         hashMap.put("shop", shop);
         return hashMap;
     }
+
+    @Override
+    public Users findByIdShop(Long id) {
+        return iUserRepository.findByIdShop(id);
+    }
 }
