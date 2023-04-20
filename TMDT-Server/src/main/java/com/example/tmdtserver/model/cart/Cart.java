@@ -21,6 +21,7 @@ public class Cart {
     @OneToOne
     private Account account;
 
-
-
+    public Cart(Account account) {
+        this.account = account;
+    }
 }

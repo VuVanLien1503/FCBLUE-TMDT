@@ -9,7 +9,6 @@ import com.example.tmdtserver.service.cart.my_interface.ICartService;
 import com.example.tmdtserver.service.cart.my_interface.IProductCartService;
 import com.example.tmdtserver.service.product_service.my_interface.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,11 +37,11 @@ public class CartController {
             Account account = accountService.findById(id);
             Cart cart = new Cart();
             cart.setAccount(account);
-            return new ResponseEntity<>(cartService.save(cart), HttpStatus.CREATED);
+            return new ResponseEntity<>(  cartService.save(cart), HttpStatus.CREATED);
         }
     }
 
-//    Hiển thị tất cả sản phẩm trong 1 giỏ hàng
+//    Hiển thị tất cả sản phẩm trong 1 giỏ hàng theo idAccount
     @GetMapping("{id}")
     public ResponseEntity<List<Product>> showProductOfCart(@PathVariable("id")Long id){
         List<Product> products = productService.showProductOfCart(id);
@@ -55,7 +54,24 @@ public class CartController {
 //    Thêm sản phẩm vào giỏ hàng
     @PostMapping()
     public ResponseEntity<ProductCart> addProductToCart(@RequestBody ProductCart productCart){
-        return new ResponseEntity<>(productCartService.save(productCart),HttpStatus.OK);
+//        Trả ra product của shop khi thêm sản phẩm
+        Product productShop = productService.findById(productCart.getProduct().getId());
+        if (productCart.getQuantity()<= productShop.getQuantity()){
+            productShop.setQuantity(productShop.getQuantity() - productCart.getQuantity());
+            return new ResponseEntity<>(productCartService.save(productCart),HttpStatus.OK);
+        }
+       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    // Truy xuất thông tin của 1 ProductCart theo idCart and idProduct
+    @GetMapping("/{idCart}/{idProduct}")
+    public ResponseEntity<ProductCart> findProductCart(@PathVariable("idCart")Long idCart,
+                                                       @PathVariable("idProduct")Long idProduct){
+        ProductCart productCart = productCartService.findProductCart(idCart,idProduct);
+        if (productCart==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(productCart,HttpStatus.OK);
     }
 }
 

@@ -2,6 +2,7 @@ package com.example.tmdtserver.model.cart;
 
 
 import com.example.tmdtserver.model.Product;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

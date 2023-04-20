@@ -31,4 +31,9 @@ public class ProductCartServiceImpl implements IProductCartService {
     public void remove(Long id) {
 
     }
+
+    @Override
+    public ProductCart findProductCart(Long idCart, Long idProduct) {
+        return productCartRepository.findProductCartShop(idCart,idProduct);
+    }
 }
