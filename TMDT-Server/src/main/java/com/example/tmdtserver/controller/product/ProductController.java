@@ -1,6 +1,7 @@
 package com.example.tmdtserver.controller.product;
 
 import com.example.tmdtserver.model.Product;
+import com.example.tmdtserver.model.Search;
 import com.example.tmdtserver.model.shop.Shop;
 import com.example.tmdtserver.repository.IShopRepository;
 import com.example.tmdtserver.service.product_service.my_interface.IProductService;
@@ -13,6 +14,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/home/products")
@@ -21,43 +26,53 @@ public class ProductController {
     private IProductService productService;
     @Autowired
     private IShopService shopService;
+
     //Hiển thị tất cả sản phẩm trong 1 shop.
     @GetMapping("/shop/{id}")
     public ResponseEntity<Page<Product>> listProductOfShop(@PathVariable("id") Long id,
-                                                           @PageableDefault(size = 3)Pageable pageable){
-        Shop shop  = shopService.findByIdAccount(id);
-        Page<Product> products = productService.showProductOfShop(shop.getId(),pageable);
-        if (products.isEmpty()){
+                                                           @PageableDefault(size = 5) Pageable pageable) {
+        Shop shop = shopService.findByIdAccount(id);
+        Page<Product> products = productService.showProductOfShop(shop.getId(), pageable);
+        if (products.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(products,HttpStatus.OK);
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
-//    Tạo mới 1 sản phẩm
+    //    Tạo mới 1 sản phẩm
     @PostMapping("/shop/{id}")
-    public ResponseEntity<Product> createProduct(@PathVariable("id")Long id,@RequestBody Product product){
+    public ResponseEntity<Product> createProduct(@PathVariable("id") Long id, @RequestBody Product product) {
         Shop shop = shopService.findByIdAccount(id);
         product.setShop(shop);
-        return new ResponseEntity<>(productService.save(product),HttpStatus.CREATED);
+        return new ResponseEntity<>(productService.save(product), HttpStatus.CREATED);
     }
 
-//    Hiển thị tất cả sản phẩm trên trang chủ
+    //    Hiển thị tất cả sản phẩm trên trang chủ
     @GetMapping
-    public ResponseEntity<Page<Product>> findAll(@PageableDefault(size = 18)Pageable pageable){
+    public ResponseEntity<Page<Product>> findAll(@PageableDefault(size = 18) Pageable pageable) {
         Page<Product> products = productService.findALl(pageable);
-        if (products.isEmpty()){
+        if (products.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(products,HttpStatus.OK);
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
-//    Hiển thị chi tiết 1 sản phẩm
+    //    Hiển thị chi tiết 1 sản phẩm
     @GetMapping("/{id}")
-    public ResponseEntity<Product> findById(@PathVariable("id")Long id){
+    public ResponseEntity<Product> findById(@PathVariable("id") Long id) {
         Product product = productService.findById(id);
-        if (product == null){
+        if (product == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(product,HttpStatus.OK);
+        return new ResponseEntity<>(product, HttpStatus.OK);
+    }
+
+
+    @PostMapping(value = "/search")
+    ResponseEntity<Map<String, Object>> showProductBySearch(@PageableDefault(size = 18) Pageable pageable,
+                                                            @RequestBody Search search) {
+        Map<String, Object> hashMap;
+        hashMap = productService.showProductBySearch(pageable, search);
+        return new ResponseEntity<>(hashMap, HttpStatus.OK);
     }
 }

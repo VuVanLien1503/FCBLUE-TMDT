@@ -32,4 +32,25 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
     @Modifying
     @Query(value = "UPDATE Product p  set p.status = false where p.id = :id")
     void deleteProductByIdProduct(@Param("id")Long id);
+
+    // FindByAll
+    @Query(value = "select p from Product as p inner join Category c on p.category.id = c.id" +
+            " where p.name like :name " +
+            "and p.category.id = :idCategory " +
+            "and p.price between :priceMin and :priceMax " +
+            "and p.status=true ")
+    Page<Product> findByAll(
+            Pageable pageable,
+            @Param("name") String name,
+            @Param("idCategory") Long idCategory,
+            @Param("priceMin")Double priceMin,
+            @Param("priceMax")Double priceMax);
+
+    @Query(value = "select p from Product as p where p.name like :name " +
+            "and p.price between :priceMin and :priceMax " +
+            "and p.status=true ")
+    Page<Product> findByAllNoCategory(Pageable pageable,
+                                 @Param("name") String name,
+                                 @Param("priceMin")Double priceMin,
+                                 @Param("priceMax")Double priceMax);
 }
