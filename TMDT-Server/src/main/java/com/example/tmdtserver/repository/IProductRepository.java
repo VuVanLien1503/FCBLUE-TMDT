@@ -25,7 +25,7 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
 
     //Hiển thị tất cả sản phẩm có trong giỏ hàng
     @Query(value = "select p from Product p " +
-            "join ProductCart pc on p.id = pc.product.id join Cart c on c.id = pc.cart.id where c.account.id = :id")
+            "join ProductCart pc on p.id = pc.product.id join Cart c on c.id = pc.cart.id where c.account.id = :id and p.status = true")
     List<Product> showProductOfCart(@Param("id")Long id);
 
 //    Xóa sản phẩm có trong shop

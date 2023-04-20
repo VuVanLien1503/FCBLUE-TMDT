@@ -2,6 +2,7 @@ package com.example.tmdtserver.controller.cart;
 
 import com.example.tmdtserver.model.Account;
 import com.example.tmdtserver.model.Product;
+import com.example.tmdtserver.model.ProductConvert;
 import com.example.tmdtserver.model.cart.Cart;
 import com.example.tmdtserver.model.cart.ProductCart;
 import com.example.tmdtserver.service.account.IAccountService;
@@ -41,19 +42,33 @@ public class CartController {
         }
     }
 
-//    Hiển thị tất cả sản phẩm trong 1 giỏ hàng theo idAccount
+////    Hiển thị tất cả sản phẩm trong 1 giỏ hàng theo idAccount
+//    @GetMapping("{id}")
+//    public ResponseEntity<List<Product>> showProductOfCart(@PathVariable("id")Long id){
+//        List<Product> products = productService.showProductOfCart(id);
+//        if (products.isEmpty()){
+//            return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
+//        }
+//        return new ResponseEntity<>(products,HttpStatus.OK);
+//    }
+
+    //    Hiển thị tất cả sản phẩm trong 1 giỏ hàng theo idAccount
+
     @GetMapping("{id}")
-    public ResponseEntity<List<Product>> showProductOfCart(@PathVariable("id")Long id){
-        List<Product> products = productService.showProductOfCart(id);
-        if (products.isEmpty()){
+    public ResponseEntity<List<ProductConvert>> showProductOfCart(@PathVariable("id")Long id){
+        Cart cart = cartService.findByIdAccount(id);
+        List<ProductConvert> productConverts = cartService.convertMapToList(cart.getProducts());
+        if (productConverts.isEmpty()){
             return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(products,HttpStatus.OK);
+        return new ResponseEntity<>(productConverts,HttpStatus.OK);
+
     }
 
 //    Thêm sản phẩm vào giỏ hàng
     @PostMapping()
     public ResponseEntity<ProductCart> addProductToCart(@RequestBody ProductCart productCart){
+
 //        Trả ra product của shop khi thêm sản phẩm
         Product productShop = productService.findById(productCart.getProduct().getId());
         if (productCart.getQuantity()<= productShop.getQuantity()){
