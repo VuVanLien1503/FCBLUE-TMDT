@@ -1,6 +1,6 @@
 package com.example.tmdtserver.model.shop;
 
-import com.example.tmdtserver.model.Account;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,18 +13,9 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Shop {
+public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String description;
-    private boolean status=true;
-
-    @OneToOne
-    private Account account;
-    @ManyToOne
-    private City city;
-
-
 }
