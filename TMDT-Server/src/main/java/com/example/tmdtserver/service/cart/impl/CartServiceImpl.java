@@ -4,6 +4,7 @@ import com.example.tmdtserver.model.ProductConvert;
 import com.example.tmdtserver.model.Product;
 import com.example.tmdtserver.model.cart.Cart;
 import com.example.tmdtserver.repository.ICartRepository;
+import com.example.tmdtserver.repository.IProductRepository;
 import com.example.tmdtserver.service.cart.my_interface.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,8 @@ import java.util.Map;
 public class CartServiceImpl implements ICartService {
     @Autowired
     private ICartRepository cartRepository;
+    @Autowired
+    private IProductRepository productRepository;
     @Override
     public Page<Cart> findALl(Pageable pageable) {
         return null;
@@ -69,12 +72,17 @@ public class CartServiceImpl implements ICartService {
         // Kiểm tra product có tồn tại trong giỏ hàng. Nếu chưa tồn tại thì value = 1
         if (checkItemInCart(id, product)){
             findByIdAccount(id).getProducts().put(product,1);
+            product.setQuantity(product.getQuantity() -1);
         } else {
             // Nếu product đã  tồn tại trong giỏ hàng thì xét lại value cộng thêm với 1
             Map.Entry<Product, Integer> itemEntry = selectItemInCart(id,product);
             assert itemEntry != null;
             Integer newQuantity = itemEntry.getValue() + 1;
+            Integer newQuantityProduct = product.getQuantity() - 1;
+            product.setQuantity(newQuantityProduct);
+            productRepository.save(product);
             findByIdAccount(id).getProducts().replace(itemEntry.getKey(),newQuantity);
+            cartRepository.save(findByIdAccount(id));
         }
     }
     // Bớt sản phẩm khỏi giỏ hàng
@@ -83,12 +91,17 @@ public class CartServiceImpl implements ICartService {
         // Kiểm tra product có tồn tại trong giỏ hàng. Nếu chưa tồn tại thì value = 1
         if (checkItemInCart(id, product)){
             findByIdAccount(id).getProducts().put(product,1);
+            product.setQuantity(product.getQuantity() + 1);
         } else {
             // Nếu product đã  tồn tại trong giỏ hàng thì xét lại value trừ với 1
             Map.Entry<Product, Integer> itemEntry = selectItemInCart(id,product);
             assert itemEntry != null;
             Integer newQuantity = itemEntry.getValue() - 1;
+            product.setQuantity(product.getQuantity() + 1);
+            productRepository.save(product);
             findByIdAccount(id).getProducts().replace(itemEntry.getKey(),newQuantity);
+            cartRepository.save(findByIdAccount(id));
+
         }
     }
     // Tổng số lượng sản phẩm có trong giỏ hàng

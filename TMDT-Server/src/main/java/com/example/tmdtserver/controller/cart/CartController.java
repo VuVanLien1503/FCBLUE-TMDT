@@ -42,17 +42,6 @@ public class CartController {
         }
     }
 
-////    Hiển thị tất cả sản phẩm trong 1 giỏ hàng theo idAccount
-//    @GetMapping("{id}")
-//    public ResponseEntity<List<Product>> showProductOfCart(@PathVariable("id")Long id){
-//        List<Product> products = productService.showProductOfCart(id);
-//        if (products.isEmpty()){
-//            return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
-//        }
-//        return new ResponseEntity<>(products,HttpStatus.OK);
-//    }
-
-    //    Hiển thị tất cả sản phẩm trong 1 giỏ hàng theo idAccount
 
     @GetMapping("{id}")
     public ResponseEntity<List<ProductConvert>> showProductOfCart(@PathVariable("id")Long id){
@@ -66,16 +55,19 @@ public class CartController {
     }
 
 //    Thêm sản phẩm vào giỏ hàng
-    @PostMapping()
-    public ResponseEntity<ProductCart> addProductToCart(@RequestBody ProductCart productCart){
+    @PostMapping("/{id}/add/product")
+    public ResponseEntity<Void> addProductToCart(@PathVariable("id")Long id,
+                                                        @RequestBody Product product){
+        cartService.addProduct(id,product);
+        return new ResponseEntity<>(HttpStatus.OK);
 
-//        Trả ra product của shop khi thêm sản phẩm
-        Product productShop = productService.findById(productCart.getProduct().getId());
-        if (productCart.getQuantity()<= productShop.getQuantity()){
-            productShop.setQuantity(productShop.getQuantity() - productCart.getQuantity());
-            return new ResponseEntity<>(productCartService.save(productCart),HttpStatus.OK);
-        }
-       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+    @PostMapping("/{id}/sub/product")
+    public ResponseEntity<Void> subProductToCart(@PathVariable("id")Long id,
+                                                 @RequestBody Product product){
+        cartService.subProduct(id,product);
+        return new ResponseEntity<>(HttpStatus.OK);
+
     }
 
     // Truy xuất thông tin của 1 ProductCart theo idCart and idProduct

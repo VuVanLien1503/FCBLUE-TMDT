@@ -20,7 +20,7 @@ public class Product {
     private Long id;
     private String name;
     private Double price;
-    private Long quantity;
+    private Integer quantity;
     private String description;
     @ElementCollection
     private List<String> imagePath;
