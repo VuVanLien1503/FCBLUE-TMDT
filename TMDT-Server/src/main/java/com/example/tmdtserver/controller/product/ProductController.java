@@ -49,7 +49,7 @@ public class ProductController {
 
     //    Hiển thị tất cả sản phẩm trên trang chủ
     @GetMapping
-    public ResponseEntity<Page<Product>> findAll(@PageableDefault(size = 18) Pageable pageable) {
+    public ResponseEntity<Page<Product>> findAll(@PageableDefault(size = 8) Pageable pageable) {
         Page<Product> products = productService.findALl(pageable);
         if (products.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -69,7 +69,7 @@ public class ProductController {
 
 
     @PostMapping(value = "/search")
-    ResponseEntity<Map<String, Object>> showProductBySearch(@PageableDefault(size = 18) Pageable pageable,
+    ResponseEntity<Map<String, Object>> showProductBySearch(@PageableDefault(size = 8) Pageable pageable,
                                                             @RequestBody Search search) {
         Map<String, Object> hashMap;
         hashMap = productService.showProductBySearch(pageable, search);
