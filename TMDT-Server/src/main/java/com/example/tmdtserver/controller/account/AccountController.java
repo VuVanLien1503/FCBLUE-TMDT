@@ -67,19 +67,25 @@ public class AccountController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<Users> findUserByAccount(@PathVariable("id") Long id) {
         Users users = accountService.findUserByAccount(id);
-        return new ResponseEntity<>(users,HttpStatus.OK);
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @GetMapping(value = "/shop/{id}")
     public ResponseEntity<Users> findUserByIdShop(@PathVariable("id") Long id) {
         Users users = userService.findByIdShop(id);
-        return new ResponseEntity<>(users,HttpStatus.OK);
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @GetMapping(value = "/information/{id}")
     public ResponseEntity<Account> findAccountByIdShop(@PathVariable("id") Long id) {
         Account account = accountService.findAccountByIdShop(id);
-        return new ResponseEntity<>(account,HttpStatus.OK);
+        return new ResponseEntity<>(account, HttpStatus.OK);
     }
 
+    //    update user
+    @PostMapping(value = "/update-user")
+    public ResponseEntity<Void> updateUser(@RequestBody() Users users) {
+        userService.save(users);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
