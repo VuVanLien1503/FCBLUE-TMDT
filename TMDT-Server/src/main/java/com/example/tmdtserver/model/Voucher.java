@@ -19,7 +19,7 @@ public class Voucher {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private Double value;
+    private Double percent;
     private Long quantity;
     @ManyToOne
     private Shop shop;
