@@ -4,10 +4,8 @@ import com.example.tmdtserver.model.Account;
 import com.example.tmdtserver.model.Product;
 import com.example.tmdtserver.model.ProductConvert;
 import com.example.tmdtserver.model.cart.Cart;
-import com.example.tmdtserver.model.cart.ProductCart;
 import com.example.tmdtserver.service.account.IAccountService;
 import com.example.tmdtserver.service.cart.my_interface.ICartService;
-import com.example.tmdtserver.service.cart.my_interface.IProductCartService;
 import com.example.tmdtserver.service.product_service.my_interface.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin("*")
@@ -26,8 +25,6 @@ public class CartController {
     private IAccountService accountService;
     @Autowired
     private IProductService productService;
-    @Autowired
-    private IProductCartService productCartService;
 
     //Tạo mới một giỏ hàng
     @PostMapping("{id}")
@@ -42,7 +39,7 @@ public class CartController {
         }
     }
 
-
+//  Hiển thị sản phẩm có trong giỏ hàng
     @GetMapping("{id}")
     public ResponseEntity<List<ProductConvert>> showProductOfCart(@PathVariable("id")Long id){
         Cart cart = cartService.findByIdAccount(id);
@@ -70,15 +67,45 @@ public class CartController {
 
     }
 
-    // Truy xuất thông tin của 1 ProductCart theo idCart and idProduct
-    @GetMapping("/{idCart}/{idProduct}")
-    public ResponseEntity<ProductCart> findProductCart(@PathVariable("idCart")Long idCart,
-                                                       @PathVariable("idProduct")Long idProduct){
-        ProductCart productCart = productCartService.findProductCart(idCart,idProduct);
-        if (productCart==null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    // Kiểm tra xem sản phẩm có tồn tại hay không trong giỏ hàng
+    @PostMapping("/check-product/{id}")
+    public ResponseEntity<Integer> checkProductInCart(@PathVariable("id")Long id,
+                                                      @RequestBody Product product){
+        return new ResponseEntity<>(cartService.checkProductInCart(id, product),HttpStatus.OK);
+    }
+
+//    Xóa sản phẩm trong giỏ hàng
+
+    @DeleteMapping("/delete/product-cart/{id}")
+    public ResponseEntity<Cart> deleteProductInCart(@PathVariable("id")Long id,
+                                                    @RequestBody Product product){
+        Cart cart = cartService.findByIdAccount(id);
+        Integer quantity = 0;
+        if (cart!=null){
+            for (Map.Entry<Product, Integer> entry : cart.getProducts().entrySet()) {
+                if(entry.getKey().getId().equals(product.getId())){
+                    quantity = entry.getValue();
+                }
+            }
+            product.setQuantity(product.getQuantity() + quantity);
+            cartService.deleteProductInCart(cart,product.getId());
+            productService.save(product);
+            return new ResponseEntity<>(cart, HttpStatus.OK);
         }
-        return new ResponseEntity<>(productCart,HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    // Xóa sản phẩm trong giỏ hàng khi quantity bằng 0
+    @DeleteMapping("/delete/product-cart/0/{id}")
+    public ResponseEntity<Cart> deleteProductInCartQuantity(@PathVariable("id")Long id,
+                                                    @RequestBody Product product){
+        Cart cart = cartService.findByIdAccount(id);
+        if (cart!=null){
+            cartService.deleteProductInCart(cart,product.getId());
+            return new ResponseEntity<>(cart, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
+
 

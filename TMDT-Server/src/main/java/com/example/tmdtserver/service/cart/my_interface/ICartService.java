@@ -29,4 +29,13 @@ public interface ICartService extends ICrudService<Cart> {
     Double countTotalPayment(Long id);
 
     List<ProductConvert> convertMapToList(Map<Product,Integer> products);
+
+//    Kiểm tra sản phẩm có trong giỏ hàng hay không
+
+    Integer checkProductInCart(Long id, Product product);
+
+//    Xóa 1 sản phẩm trong giỏ hàng
+    void deleteProductInCart(Cart cart, Long idProduct);
+
 }
+

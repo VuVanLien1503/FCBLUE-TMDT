@@ -40,13 +40,31 @@ public class CartServiceImpl implements ICartService {
     public void remove(Long id) {
 
     }
+    @Override
+    public void deleteProductInCart(Cart cart,Long idProduct) {
+        cart.getProducts().entrySet().removeIf(entry -> entry.getKey().getId().equals(idProduct));
+        save(cart);
+    }
 
     @Override
     public Cart findByIdAccount(Long id) {
         return cartRepository.findByIdAccount(id);
     }
+//    Kiểm tra số lượng của sản phẩm có trong giỏ hàng
+    @Override
+    public Integer checkProductInCart(Long id, Product product) {
+        for (Map.Entry<Product, Integer> entry : findByIdAccount(id).getProducts().entrySet()) {
+            if(entry.getKey().getId().equals(product.getId())){
+                return entry.getValue();
+            }
+        }
+        return 0;
+    }
 
-    //Kiểm tra xem sản phẩm có trong giỏ hàng hay chưa
+
+
+
+    //Kiểm tra sản phẩm có trong giỏ hàng hay chưa
     @Override
     public boolean checkItemInCart(Long id,Product product) {
         for (Map.Entry<Product, Integer> entry : findByIdAccount(id).getProducts().entrySet()) {
@@ -73,6 +91,8 @@ public class CartServiceImpl implements ICartService {
         if (checkItemInCart(id, product)){
             findByIdAccount(id).getProducts().put(product,1);
             product.setQuantity(product.getQuantity() -1);
+            productRepository.save(product);
+            cartRepository.save(findByIdAccount(id));
         } else {
             // Nếu product đã  tồn tại trong giỏ hàng thì xét lại value cộng thêm với 1
             Map.Entry<Product, Integer> itemEntry = selectItemInCart(id,product);
@@ -92,6 +112,8 @@ public class CartServiceImpl implements ICartService {
         if (checkItemInCart(id, product)){
             findByIdAccount(id).getProducts().put(product,1);
             product.setQuantity(product.getQuantity() + 1);
+            productRepository.save(product);
+            cartRepository.save(findByIdAccount(id));
         } else {
             // Nếu product đã  tồn tại trong giỏ hàng thì xét lại value trừ với 1
             Map.Entry<Product, Integer> itemEntry = selectItemInCart(id,product);
@@ -101,7 +123,6 @@ public class CartServiceImpl implements ICartService {
             productRepository.save(product);
             findByIdAccount(id).getProducts().replace(itemEntry.getKey(),newQuantity);
             cartRepository.save(findByIdAccount(id));
-
         }
     }
     // Tổng số lượng sản phẩm có trong giỏ hàng

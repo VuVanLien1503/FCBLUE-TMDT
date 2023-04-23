@@ -68,6 +68,16 @@ public class ShopController {
         return new ResponseEntity<>(voucherService.save(voucher),HttpStatus.CREATED);
     }
 
+//    Show all voucher id là id của shop
+    @GetMapping("/voucher/{id}")
+    public ResponseEntity<Page<Voucher>> findAllVoucher(@PathVariable("id")Long id,
+                                                        @PageableDefault(size = 5)Pageable pageable){
+        Page<Voucher> vouchers = voucherService.showAllVoucher(pageable, id);
+        return new ResponseEntity<>(vouchers, HttpStatus.OK);
+
+    }
+
+
     // Truy xuất Category của 1 shop
     @GetMapping("/{id}/categories")
     public ResponseEntity<List<Category>> findCategoryOfShop(@PathVariable("id")Long id){
