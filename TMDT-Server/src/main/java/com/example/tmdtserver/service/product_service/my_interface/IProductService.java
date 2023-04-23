@@ -13,7 +13,6 @@ import java.util.Map;
 public interface IProductService extends ICrudService<Product> {
     Page<Product> showProductOfShop(Long id, Pageable pageable);
 
-    List<Product> showProductOfCart(Long id);
     Map<String,Object> showProductBySearch(Pageable pageable, Search search);
 
 }

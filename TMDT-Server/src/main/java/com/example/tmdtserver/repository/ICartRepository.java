@@ -17,4 +17,5 @@ public interface ICartRepository extends JpaRepository<Cart,Long> {
     @Query(value = "select c from Cart c where c.account.id = :id")
     Cart findByIdAccount(@Param("id")Long id);
 
+
 }

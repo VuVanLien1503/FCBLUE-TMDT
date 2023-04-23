@@ -31,4 +31,9 @@ public class VoucherServiceImpl implements IVoucherService{
     public void remove(Long id) {
 
     }
+
+    @Override
+    public Page<Voucher> showAllVoucher(Pageable pageable, Long id) {
+        return voucherRepository.showAllVoucher(pageable, id);
+    }
 }

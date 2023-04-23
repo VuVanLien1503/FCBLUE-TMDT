@@ -44,10 +44,6 @@ public class ProductServiceImpl implements IProductService {
         return productRepository.showProductOfShop(id, pageable);
     }
 
-    @Override
-    public List<Product> showProductOfCart(Long id) {
-        return productRepository.showProductOfCart(id);
-    }
 
     @Override
     public Map<String,Object> showProductBySearch(Pageable pageable, Search search) {
