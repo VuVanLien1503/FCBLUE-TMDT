@@ -76,23 +76,12 @@ public class CartController {
 
 //    Xóa sản phẩm trong giỏ hàng
 
-    @DeleteMapping("/delete/product-cart/{id}")
+    @PostMapping("/delete/product-cart/{id}")
     public ResponseEntity<Cart> deleteProductInCart(@PathVariable("id")Long id,
                                                     @RequestBody Product product){
         Cart cart = cartService.findByIdAccount(id);
-        Integer quantity = 0;
-        if (cart!=null){
-            for (Map.Entry<Product, Integer> entry : cart.getProducts().entrySet()) {
-                if(entry.getKey().getId().equals(product.getId())){
-                    quantity = entry.getValue();
-                }
-            }
-            product.setQuantity(product.getQuantity() + quantity);
-            cartService.deleteProductInCart(cart,product.getId());
-            productService.save(product);
-            return new ResponseEntity<>(cart, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        cartService.deleteProductInCart(cart,product.getId());
+        return new ResponseEntity<>(cart, HttpStatus.OK);
     }
 
     // Xóa sản phẩm trong giỏ hàng khi quantity bằng 0
@@ -106,6 +95,10 @@ public class CartController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+//    //Thanh toán sản phẩm
+//    @PostMapping("/pays/product/{id}")
+
 }
 
 

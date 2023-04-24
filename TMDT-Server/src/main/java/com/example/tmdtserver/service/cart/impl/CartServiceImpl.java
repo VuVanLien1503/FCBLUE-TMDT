@@ -90,8 +90,6 @@ public class CartServiceImpl implements ICartService {
         // Kiểm tra product có tồn tại trong giỏ hàng. Nếu chưa tồn tại thì value = 1
         if (checkItemInCart(id, product)){
             findByIdAccount(id).getProducts().put(product,1);
-            product.setQuantity(product.getQuantity() -1);
-            productRepository.save(product);
             cartRepository.save(findByIdAccount(id));
         } else {
             // Nếu product đã  tồn tại trong giỏ hàng thì xét lại value cộng thêm với 1
@@ -99,8 +97,6 @@ public class CartServiceImpl implements ICartService {
             assert itemEntry != null;
             Integer newQuantity = itemEntry.getValue() + 1;
             Integer newQuantityProduct = product.getQuantity() - 1;
-            product.setQuantity(newQuantityProduct);
-            productRepository.save(product);
             findByIdAccount(id).getProducts().replace(itemEntry.getKey(),newQuantity);
             cartRepository.save(findByIdAccount(id));
         }
@@ -111,16 +107,12 @@ public class CartServiceImpl implements ICartService {
         // Kiểm tra product có tồn tại trong giỏ hàng. Nếu chưa tồn tại thì value = 1
         if (checkItemInCart(id, product)){
             findByIdAccount(id).getProducts().put(product,1);
-            product.setQuantity(product.getQuantity() + 1);
-            productRepository.save(product);
             cartRepository.save(findByIdAccount(id));
         } else {
             // Nếu product đã  tồn tại trong giỏ hàng thì xét lại value trừ với 1
             Map.Entry<Product, Integer> itemEntry = selectItemInCart(id,product);
             assert itemEntry != null;
             Integer newQuantity = itemEntry.getValue() - 1;
-            product.setQuantity(product.getQuantity() + 1);
-            productRepository.save(product);
             findByIdAccount(id).getProducts().replace(itemEntry.getKey(),newQuantity);
             cartRepository.save(findByIdAccount(id));
         }
