@@ -5,4 +5,5 @@ import com.example.tmdtserver.service.shop_service.core.ICrudService;
 
 public interface IShopService extends ICrudService<Shop> {
     Shop findByIdAccount(Long id);
+    Shop findShopByIdProduct(Long id);
 }

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -18,14 +19,11 @@ public class Bill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String date;
+    private Date date;
     @ManyToOne
     private Shop shop;
     @ManyToOne
     private Account account;
-    private String status;
-
-
-
+    private boolean status = false;
 
 }

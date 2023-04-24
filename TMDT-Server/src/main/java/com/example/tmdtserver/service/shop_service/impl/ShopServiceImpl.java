@@ -35,4 +35,9 @@ public class ShopServiceImpl implements IShopService {
     public Shop findByIdAccount(Long id) {
         return shopRepository.findShopByAccount(id);
     }
+
+    @Override
+    public Shop findShopByIdProduct(Long id) {
+        return shopRepository.findShopByProduct(id);
+    }
 }

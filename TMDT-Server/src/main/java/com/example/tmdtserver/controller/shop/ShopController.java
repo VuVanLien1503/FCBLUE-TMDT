@@ -99,7 +99,7 @@ public class ShopController {
         }
         return new ResponseEntity<>(shop,HttpStatus.OK);
     }
-    //Truy xuất thông tin chi tiết của 1 shop theo id product
+    //Truy xuất thông tin chi tiết của 1 shop theo id shop
     @GetMapping("/information/{id}")
     public ResponseEntity<Shop> findByIdShop(@PathVariable("id")Long id){
         Shop shop = shopService.findById(id);
