@@ -25,6 +25,6 @@ public class BillDetail {
     @MapsId(value = "billId")
     private Bill bill ;
 
-    private Long quantity;
+    private Integer quantity;
     private Double total;
 }

@@ -1,8 +1,10 @@
 package com.example.tmdtserver.controller.bill;
 
+import com.example.tmdtserver.model.Product;
 import com.example.tmdtserver.model.bill.Bill;
 import com.example.tmdtserver.model.bill.BillDetail;
 import com.example.tmdtserver.service.cart.my_interface.IBillService;
+import com.example.tmdtserver.service.product_service.my_interface.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 public class BillController {
     @Autowired
     private IBillService billService;
+    @Autowired
+    private IProductService productService;
 
     @GetMapping
     private  ResponseEntity<Page<Bill>> showBill(@PageableDefault(size = 5)Pageable pageable){
@@ -37,7 +41,11 @@ public class BillController {
     //    Tạo mới 1 bill detail
     @PostMapping("/bill-detail/create")
     private ResponseEntity<BillDetail> createBillDetail (@RequestBody BillDetail billDetail){
-        return new ResponseEntity<>(billService.createBillDetail(billDetail), HttpStatus.CREATED);
+        BillDetail billDetailCreate = billService.createBillDetail(billDetail);
+        Bill bill = billDetailCreate.getBill();
+        bill.setStatus(true);
+        billService.save(bill);
+        return new ResponseEntity<>( billDetailCreate, HttpStatus.CREATED);
     }
 }
 

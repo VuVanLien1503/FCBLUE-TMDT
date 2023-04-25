@@ -75,4 +75,9 @@ public class ProductController {
         hashMap = productService.showProductBySearch(pageable, search);
         return new ResponseEntity<>(hashMap, HttpStatus.OK);
     }
+
+    @PostMapping("/update")
+    public  ResponseEntity<Product> updateProduct(@RequestBody Product product){
+        return new ResponseEntity<>(productService.save(product),HttpStatus.OK);
+    }
 }
