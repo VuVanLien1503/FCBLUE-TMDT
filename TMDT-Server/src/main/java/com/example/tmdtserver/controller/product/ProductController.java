@@ -75,4 +75,12 @@ public class ProductController {
         hashMap = productService.showProductBySearch(pageable, search);
         return new ResponseEntity<>(hashMap, HttpStatus.OK);
     }
+
+    @PostMapping(value = "/search-name")
+    ResponseEntity<Map<String, Object>> showProductByName(@PageableDefault(size = 8) Pageable pageable,
+                                                            @RequestBody Search search) {
+        Map<String, Object> hashMap;
+        hashMap = productService.findAllByNameContaining(pageable, search);
+        return new ResponseEntity<>(hashMap, HttpStatus.OK);
+    }
 }

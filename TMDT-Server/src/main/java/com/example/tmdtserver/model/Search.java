@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 public class Search {
     private String name;
     private Long idCategory;
+    private Long idCity;
     private Double priceMin;
     private Double priceMax;
 
@@ -41,5 +42,13 @@ public class Search {
 
     public void setPriceMax(Double priceMax) {
         this.priceMax = priceMax;
+    }
+
+    public Long getIdCity() {
+        return idCity;
+    }
+
+    public void setIdCity(Long idCity) {
+        this.idCity = idCity;
     }
 }

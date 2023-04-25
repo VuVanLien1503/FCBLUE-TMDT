@@ -46,18 +46,31 @@ public class ProductServiceImpl implements IProductService {
 
 
     @Override
-    public Map<String,Object> showProductBySearch(Pageable pageable, Search search) {
+    public Map<String, Object> showProductBySearch(Pageable pageable, Search search) {
         Page<Product> products = null;
         Map<String, Object> hashMap = new HashMap<>();
-        if ((search.getIdCategory().longValue() == 0)){
-            products=productRepository.findByAllNoCategory(pageable,"%" + search.getName() + "%",search.getPriceMin(),search.getPriceMax());
-        }else {
-           products=productRepository.findByAll(pageable,"%" + search.getName() + "%",search.getIdCategory(),search.getPriceMin(),search.getPriceMax());
+        if ((search.getIdCategory().longValue() == 0)) {
+            products = productRepository.findByAllNoCategory(pageable, "%" + search.getName() + "%", search.getPriceMin(), search.getPriceMax());
+        } else {
+            products = productRepository.findByAll(pageable, "%" + search.getName() + "%", search.getIdCategory(), search.getPriceMin(), search.getPriceMax());
 
         }
-        hashMap.put("products",products);
-        hashMap.put("search",search);
-      return hashMap;
+        hashMap.put("products", products);
+        hashMap.put("search", search);
+        return hashMap;
     }
 
+    @Override
+    public Map<String, Object> findAllByNameContaining(Pageable pageable, Search search) {
+        Page<Product> products = null;
+        Map<String, Object> hashMap = new HashMap<>();
+        if (search.getName().equals("")) {
+            products = productRepository.findAll(pageable);
+        } else {
+            products = productRepository.findAllByNameContaining(pageable, search.getName());
+        }
+        hashMap.put("products", products);
+        hashMap.put("search", search);
+        return hashMap;
+    }
 }

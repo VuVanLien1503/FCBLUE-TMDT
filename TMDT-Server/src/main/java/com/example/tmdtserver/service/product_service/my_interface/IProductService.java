@@ -14,5 +14,6 @@ public interface IProductService extends ICrudService<Product> {
     Page<Product> showProductOfShop(Long id, Pageable pageable);
 
     Map<String,Object> showProductBySearch(Pageable pageable, Search search);
+    Map<String,Object>findAllByNameContaining(Pageable pageable,Search search);
 
 }

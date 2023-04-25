@@ -49,4 +49,7 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
                                  @Param("name") String name,
                                  @Param("priceMin")Double priceMin,
                                  @Param("priceMax")Double priceMax);
+    Page<Product>findAllByNameContaining(Pageable pageable,
+                                         @Param("name")String name);
+
 }
