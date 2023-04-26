@@ -22,14 +22,16 @@ public class BillController {
     @Autowired
     private IProductService productService;
 
-    @GetMapping
-    private  ResponseEntity<Page<Bill>> showBill(@PageableDefault(size = 5)Pageable pageable){
-        return new ResponseEntity<>(billService.findALl(pageable),HttpStatus.OK);
+    @GetMapping("/{id}")
+    private  ResponseEntity<Page<Bill>> showBill(@PathVariable("id")Long idAccount,
+                                                 @PageableDefault(size = 5)Pageable pageable){
+        return new ResponseEntity<>(billService.showAllBill(idAccount,pageable),HttpStatus.OK);
     }
 
-    @GetMapping("/bill-detail")
-    private  ResponseEntity<Page<BillDetail>> showBillDetail(@PageableDefault(size = 5)Pageable pageable){
-        return new ResponseEntity<>(billService.showBillDetail(pageable),HttpStatus.OK);
+    @GetMapping("/bill-detail/{id}")
+    private  ResponseEntity<Page<BillDetail>> showBillDetail(@PathVariable("id")Long idAccount,
+                                                             @PageableDefault(size = 5)Pageable pageable){
+        return new ResponseEntity<>(billService.showBillDetail(idAccount,pageable),HttpStatus.OK);
     }
 
 //    Tạo mới 1 bill
@@ -43,9 +45,56 @@ public class BillController {
     private ResponseEntity<BillDetail> createBillDetail (@RequestBody BillDetail billDetail){
         BillDetail billDetailCreate = billService.createBillDetail(billDetail);
         Bill bill = billDetailCreate.getBill();
-        bill.setStatus(true);
         billService.save(bill);
         return new ResponseEntity<>( billDetailCreate, HttpStatus.CREATED);
+    }
+
+    //Hủy đơn hàng
+    @PostMapping("/delete/{idBill}")
+    private ResponseEntity<Bill> removeBillDetailUses(@PathVariable("idBill")Long id){
+        Bill bill = billService.findById(id);
+        if (bill==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else {
+            billService.removeBillDetailUses(id);
+            return new ResponseEntity<>(bill,HttpStatus.OK);
+        }
+    }
+
+    //Hiển thị các đơn hàng mà shop đã bán:
+    @GetMapping("/shops/{idShop}")
+    private ResponseEntity<Page<BillDetail>> showBillOfShop(@PathVariable("idShop")Long id,
+                                                            @PageableDefault(size = 20)Pageable pageable){
+        Page<BillDetail> billDetails = billService.showBillOfShop(id, pageable);
+        if (billDetails.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(billDetails,HttpStatus.OK);
+    }
+
+    //Khi shop xác nhận đặt hàng thành công
+    @PostMapping("/update/status-bill/2/{idBill}")
+    private ResponseEntity<Bill> updateStatusBill2(@PathVariable("idBill")Long id,
+                                                   @RequestBody BillDetail billDetail){
+        Bill bill = billService.findById(id);
+        if (bill==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else {
+            billService.updateStatusBill2(id,billDetail);
+            return new ResponseEntity<>(bill,HttpStatus.OK);
+        }
+    }
+
+    // Khi khách hàng xác nhận đã nhận hàng thì chuyển trạng thái sang trạng thái đã nhận
+    @PostMapping("/update/status-bill/4/{idBill}")
+    private ResponseEntity<Bill> updateStatusBillById4(@PathVariable("idBill")Long id){
+        Bill bill = billService.findById(id);
+        if (bill==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else {
+            billService.updateStatusBillById4(id);
+            return new ResponseEntity<>(bill,HttpStatus.OK);
+        }
     }
 }
 

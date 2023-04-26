@@ -24,6 +24,7 @@ public class Bill {
     private Shop shop;
     @ManyToOne
     private Account account;
-    private boolean status = false;
+    @ManyToOne
+    private StatusBill statusBill;
 
 }

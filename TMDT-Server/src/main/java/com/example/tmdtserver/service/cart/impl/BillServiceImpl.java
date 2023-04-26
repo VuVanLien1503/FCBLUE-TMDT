@@ -1,10 +1,12 @@
 package com.example.tmdtserver.service.cart.impl;
 
+import com.example.tmdtserver.model.Product;
 import com.example.tmdtserver.model.bill.Bill;
 import com.example.tmdtserver.model.bill.BillDetail;
 import com.example.tmdtserver.repository.IBillDetailRepository;
 import com.example.tmdtserver.repository.IBillRepository;
 import com.example.tmdtserver.service.cart.my_interface.IBillService;
+import com.example.tmdtserver.service.product_service.my_interface.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +18,8 @@ public class BillServiceImpl implements IBillService {
     private IBillDetailRepository billDetailRepository;
     @Autowired
     private IBillRepository billRepository;
+    @Autowired
+    private IProductService productService;
     @Override
     public Page<Bill> findALl(Pageable pageable) {
         return billRepository.findAll(pageable);
@@ -28,7 +32,7 @@ public class BillServiceImpl implements IBillService {
 
     @Override
     public Bill findById(Long id) {
-        return null;
+        return billRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -42,7 +46,35 @@ public class BillServiceImpl implements IBillService {
     }
 
     @Override
-    public Page<BillDetail> showBillDetail(Pageable pageable) {
-        return billDetailRepository.findAll(pageable);
+    public Page<BillDetail> showBillDetail(Long id,Pageable pageable) {
+        return billDetailRepository.showBillDetail(id, pageable);
+    }
+
+    @Override
+    public Page<Bill> showAllBill(Long id, Pageable pageable) {
+        return billRepository.showAllBill(id, pageable);
+    }
+
+    @Override
+    public void removeBillDetailUses(Long idBill) {
+        billDetailRepository.removeBillDetailUses(idBill);
+    }
+
+    @Override
+    public Page<BillDetail> showBillOfShop(Long id, Pageable pageable) {
+        return billDetailRepository.showBillOfShop(id,pageable);
+    }
+
+    @Override
+    public void updateStatusBill2(Long id, BillDetail billDetail) {
+        Product productUpdate = billDetail.getProduct();
+        productUpdate.setQuantity(productUpdate.getQuantity() - billDetail.getQuantity());
+        productService.save(productUpdate);
+        billDetailRepository.updateStatusBill2(id);
+    }
+
+    @Override
+    public void updateStatusBillById4(Long id) {
+        billDetailRepository.updateStatusBillById4(id);
     }
 }

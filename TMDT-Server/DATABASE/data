@@ -16,3 +16,10 @@ INSERT INTO `tmdt_fcblue`.`users` (`address`, `email`, `name`, `password`, `phon
 INSERT INTO `tmdt_fcblue`.`account` (`status`, `role_id`, `users_id`) VALUES (1, '1', '1');
 INSERT INTO `tmdt_fcblue`.`account` (`status`, `role_id`, `users_id`) VALUES (1, '2', '2');
 INSERT INTO `tmdt_fcblue`.`account` (`status`, `role_id`, `users_id`) VALUES (1, '3', '3');
+
+
+INSERT INTO `tmdt_fcblue`.`status_bill` (`name`) VALUES ('Chờ xác nhận');
+INSERT INTO `tmdt_fcblue`.`status_bill` (`name`) VALUES ('Đang giao');
+INSERT INTO `tmdt_fcblue`.`status_bill` (`name`) VALUES ('Xác nhận');
+INSERT INTO `tmdt_fcblue`.`status_bill` (`name`) VALUES ('Đã nhận');
+INSERT INTO `tmdt_fcblue`.`status_bill` (`name`) VALUES ('Hủy đơn');
