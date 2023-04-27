@@ -14,6 +14,7 @@ import java.util.Map;
 public interface IProductService extends ICrudService<Product> {
     Page<Product> showProductOfShop(Long id, Pageable pageable);
 
-    Map<String,Object> showProductBySearch(Pageable pageable, Search search);
+    Page<Product> showProductBySearch(Pageable pageable,Search search);
+    Page<Product> showProductBySearchName(Pageable pageable,String name);
 
 }

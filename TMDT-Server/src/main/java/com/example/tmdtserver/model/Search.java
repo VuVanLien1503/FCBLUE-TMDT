@@ -1,8 +1,14 @@
 package com.example.tmdtserver.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.lang.reflect.Array;
+import java.util.List;
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Search {
@@ -10,36 +16,6 @@ public class Search {
     private Long idCategory;
     private Double priceMin;
     private Double priceMax;
+    private List<String> arrayCity;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Long getIdCategory() {
-        return idCategory;
-    }
-
-    public void setIdCategory(Long idCategory) {
-        this.idCategory = idCategory;
-    }
-
-    public Double getPriceMin() {
-        return priceMin;
-    }
-
-    public void setPriceMin(Double priceMin) {
-        this.priceMin = priceMin;
-    }
-
-    public Double getPriceMax() {
-        return priceMax;
-    }
-
-    public void setPriceMax(Double priceMax) {
-        this.priceMax = priceMax;
-    }
 }
