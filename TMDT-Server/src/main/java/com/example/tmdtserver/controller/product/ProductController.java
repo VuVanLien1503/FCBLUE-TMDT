@@ -69,15 +69,21 @@ public class ProductController {
 
 
     @PostMapping(value = "/search")
-    ResponseEntity<Map<String, Object>> showProductBySearch(@PageableDefault(size = 8) Pageable pageable,
-                                                            @RequestBody Search search) {
-        Map<String, Object> hashMap;
-        hashMap = productService.showProductBySearch(pageable, search);
-        return new ResponseEntity<>(hashMap, HttpStatus.OK);
+    ResponseEntity<Page<Product>> showProductBySearch(@PageableDefault(size = 8) Pageable pageable,
+                                                      @RequestBody Search search) {
+        Page<Product> products = productService.showProductBySearch(pageable, search);
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @PostMapping("/update")
-    public  ResponseEntity<Product> updateProduct(@RequestBody Product product){
-        return new ResponseEntity<>(productService.save(product),HttpStatus.OK);
+    public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
+        return new ResponseEntity<>(productService.save(product), HttpStatus.OK);
     }
+//    @GetMapping(value = "/search-name/{name}")
+//    ResponseEntity<Page<Product>> showProductBySearchName(@PageableDefault(size = 8) Pageable pageable,
+//                                                      @PathVariable("name") String name) {
+//
+//        Page<Product> products = productService.showProductBySearchName(pageable, name);
+//        return new ResponseEntity<>(products, HttpStatus.OK);
+//    }
 }

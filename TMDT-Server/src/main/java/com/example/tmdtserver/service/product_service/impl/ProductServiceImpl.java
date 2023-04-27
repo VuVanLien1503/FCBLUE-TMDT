@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,19 +47,46 @@ public class ProductServiceImpl implements IProductService {
 
 
     @Override
-    public Map<String,Object> showProductBySearch(Pageable pageable, Search search) {
+    public Page<Product> showProductBySearch(Pageable pageable, Search search) {
         Page<Product> products = null;
-        Map<String, Object> hashMap = new HashMap<>();
-        if ((search.getIdCategory().longValue() == 0)){
-            products=productRepository.findByAllNoCategory(pageable,"%" + search.getName() + "%",search.getPriceMin(),search.getPriceMax());
-        }else {
-           products=productRepository.findByAll(pageable,"%" + search.getName() + "%",search.getIdCategory(),search.getPriceMin(),search.getPriceMax());
-
+        if (search.getName().equals("")&& search.getArrayCity().size()==0&&search.getIdCategory()==0) {
+            products = productRepository.showAllProduct(pageable);
+        } else {
+            if (search.getArrayCity().size()==0){
+               if (search.getIdCategory()==0){
+                   products=productRepository.findByAllNoCategory(pageable,"%"+search.getName()+"%",search.getPriceMin(),search.getPriceMax());
+               }else {
+                   products=productRepository.findByAllNoCity(pageable,"%"+search.getName()+"%",search.getIdCategory(),search.getPriceMin(),search.getPriceMax());
+               }
+            }else {
+                switch (search.getArrayCity().size()){
+                    case 1:
+                        products=productRepository.findByAllCity1(pageable,search.getArrayCity().get(0),search.getIdCategory(),search.getPriceMin(),search.getPriceMax());
+                        break;
+                    case 2:
+                        products=productRepository.findByAllCity2(pageable,search.getArrayCity().get(0),search.getArrayCity().get(1),search.getIdCategory(),search.getPriceMin(),search.getPriceMax());
+                        break;
+                    case 3:
+                        products=productRepository.findByAllCity3(pageable,search.getArrayCity().get(0),search.getArrayCity().get(1),search.getArrayCity().get(2),search.getIdCategory(),search.getPriceMin(),search.getPriceMax());
+                        break;
+                    case 4:
+                        products=productRepository.findByAllCity4(pageable,search.getArrayCity().get(0),search.getArrayCity().get(1),search.getArrayCity().get(2),search.getArrayCity().get(3),search.getIdCategory(),search.getPriceMin(),search.getPriceMax());
+                        break;
+                    default:
+                        products=productRepository.findByAllCity5(pageable,search.getIdCategory(),search.getPriceMin(),search.getPriceMax());
+                        break;
+                }
+            }
+//            products =productRepository.showProductBySearchName(pageable,"%"+search.getName()+"%");
         }
-        hashMap.put("products",products);
-        hashMap.put("search",search);
-      return hashMap;
+
+        return products;
+
     }
 
-
+    @Override
+    public Page<Product> showProductBySearchName(Pageable pageable, String name) {
+       Page<Product> products=productRepository.showProductBySearchName(pageable,"%"+name+"%");
+        return products;
+    }
 }
