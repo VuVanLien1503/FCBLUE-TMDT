@@ -41,4 +41,5 @@ public interface IBillDetailRepository  extends JpaRepository<BillDetail, Long> 
     @Modifying
     @Query(value = "UPDATE Bill b set b.statusBill.id = 4 where b.id = :id")
     void updateStatusBillById4(@Param("id")Long id);
+
 }

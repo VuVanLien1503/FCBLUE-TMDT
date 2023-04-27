@@ -96,7 +96,6 @@ public class CartServiceImpl implements ICartService {
             Map.Entry<Product, Integer> itemEntry = selectItemInCart(id,product);
             assert itemEntry != null;
             Integer newQuantity = itemEntry.getValue() + 1;
-            Integer newQuantityProduct = product.getQuantity() - 1;
             findByIdAccount(id).getProducts().replace(itemEntry.getKey(),newQuantity);
             cartRepository.save(findByIdAccount(id));
         }

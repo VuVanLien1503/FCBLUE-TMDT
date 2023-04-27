@@ -24,7 +24,7 @@ public class BillController {
 
     @GetMapping("/{id}")
     private  ResponseEntity<Page<Bill>> showBill(@PathVariable("id")Long idAccount,
-                                                 @PageableDefault(size = 5)Pageable pageable){
+                                                 @PageableDefault(size = 9)Pageable pageable){
         return new ResponseEntity<>(billService.showAllBill(idAccount,pageable),HttpStatus.OK);
     }
 
@@ -64,7 +64,7 @@ public class BillController {
     //Hiển thị các đơn hàng mà shop đã bán:
     @GetMapping("/shops/{idShop}")
     private ResponseEntity<Page<BillDetail>> showBillOfShop(@PathVariable("idShop")Long id,
-                                                            @PageableDefault(size = 20)Pageable pageable){
+                                                            @PageableDefault(size = 9)Pageable pageable){
         Page<BillDetail> billDetails = billService.showBillOfShop(id, pageable);
         if (billDetails.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

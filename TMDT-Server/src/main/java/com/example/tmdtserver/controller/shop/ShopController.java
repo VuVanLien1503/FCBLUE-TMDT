@@ -1,8 +1,7 @@
 package com.example.tmdtserver.controller.shop;
 
-import com.example.tmdtserver.model.Category;
-import com.example.tmdtserver.model.Product;
-import com.example.tmdtserver.model.Voucher;
+import com.example.tmdtserver.model.*;
+import com.example.tmdtserver.model.bill.BillDetail;
 import com.example.tmdtserver.model.shop.Shop;
 import com.example.tmdtserver.service.category_service.ICategoryService;
 import com.example.tmdtserver.service.product_service.my_interface.IProductService;
@@ -17,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @CrossOrigin("*")
@@ -118,6 +119,14 @@ public class ShopController {
             return new ResponseEntity<>(product,HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    //Hiển thị danh sách các khách hàng đã mua ở shop
+    @GetMapping("/users/{idShop}")
+    public ResponseEntity<List<AccountConvert>> findTotalOfAccountBuyShop(@PathVariable("idShop")Long idShop){
+        Map<Account,Double> mapAccount = shopService.findTotalOfAccountBuyShop(idShop);
+        List<AccountConvert> accountConverts = shopService.convertMapToList(mapAccount);
+        return new ResponseEntity<>(accountConverts,HttpStatus.OK);
     }
 }
 
