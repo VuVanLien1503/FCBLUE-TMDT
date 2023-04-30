@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
-import java.util.List;
+
 
 @Repository
 @Transactional
@@ -117,4 +117,287 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
             @Param("priceMin")Double priceMin,
             @Param("priceMax")Double priceMax);
 
+    // update search
+
+
+    // no name no category
+    @Query(value = "select p from Product as p " +
+            " inner join Shop s on p.shop.id = s.id " +
+            "where p.shop.city.name=:nameCity1 " +
+            "and p.price between :priceMin and :priceMax " +
+            "and p.status=true ")
+    Page<Product> findByAllNoNameNoCategoryCity1(
+            Pageable pageable,
+            @Param("nameCity1") String nameCity1,
+            @Param("priceMin")Double priceMin,
+            @Param("priceMax")Double priceMax);
+
+    @Query(value = "select p from Product as p " +
+            " inner join Shop s on p.shop.id = s.id " +
+            "where (p.shop.city.name=:nameCity1 or p.shop.city.name=:nameCity2) " +
+            "and p.price between :priceMin and :priceMax " +
+            "and p.status=true ")
+    Page<Product> findByAllNoNameNoCategoryCity2(
+            Pageable pageable,
+            @Param("nameCity1") String nameCity1,
+            @Param("nameCity2") String nameCity2,
+            @Param("priceMin")Double priceMin,
+            @Param("priceMax")Double priceMax);
+
+    @Query(value = "select p from Product as p " +
+            " inner join Shop s on p.shop.id = s.id " +
+            "where (p.shop.city.name=:nameCity1 or p.shop.city.name=:nameCity2 or  p.shop.city.name=:nameCity3) " +
+            "and p.price between :priceMin and :priceMax " +
+            "and p.status=true ")
+    Page<Product> findByAllNoNameNoCategoryCity3(
+            Pageable pageable,
+            @Param("nameCity1") String nameCity1,
+            @Param("nameCity2") String nameCity2,
+            @Param("nameCity3") String nameCity3,
+            @Param("priceMin")Double priceMin,
+            @Param("priceMax")Double priceMax);
+
+    @Query(value = "select p from Product as p " +
+            " inner join Shop s on p.shop.id = s.id " +
+            "where (p.shop.city.name=:nameCity1 or p.shop.city.name=:nameCity2 or  p.shop.city.name=:nameCity3  or  p.shop.city.name=:nameCity4) " +
+            "and p.price between :priceMin and :priceMax " +
+            "and p.status=true ")
+    Page<Product> findByAllNoNameNoCategoryCity4(
+            Pageable pageable,
+            @Param("nameCity1") String nameCity1,
+            @Param("nameCity2") String nameCity2,
+            @Param("nameCity3") String nameCity3,
+            @Param("nameCity4") String nameCity4,
+            @Param("priceMin")Double priceMin,
+            @Param("priceMax")Double priceMax);
+    @Query(value = "select p from Product as p " +
+            " inner join Shop s on p.shop.id = s.id " +
+            "where p.price between :priceMin and :priceMax " +
+            "and p.status=true ")
+    Page<Product> findByAllNoNameNoCategoryCity5(
+            Pageable pageable,
+            @Param("priceMin")Double priceMin,
+            @Param("priceMax")Double priceMax);
+
+    // no name - category
+
+    @Query(value = "select p from Product as p " +
+            " inner join Shop s on p.shop.id = s.id " +
+            "where p.shop.city.name=:nameCity1 " +
+            "and p.category.id= :idCategory " +
+            "and p.price between :priceMin and :priceMax " +
+            "and p.status=true ")
+    Page<Product> findByAllNoNameCategoryCity1(
+            Pageable pageable,
+            @Param("nameCity1") String nameCity1,
+            @Param("idCategory") Long idCategory,
+            @Param("priceMin")Double priceMin,
+            @Param("priceMax")Double priceMax);
+
+    @Query(value = "select p from Product as p " +
+            " inner join Shop s on p.shop.id = s.id " +
+            "where (p.shop.city.name=:nameCity1 or p.shop.city.name=:nameCity2) " +
+            "and p.category.id= :idCategory " +
+            "and p.price between :priceMin and :priceMax " +
+            "and p.status=true ")
+    Page<Product> findByAllNoNameCategoryCity2(
+            Pageable pageable,
+            @Param("nameCity1") String nameCity1,
+            @Param("nameCity2") String nameCity2,
+            @Param("idCategory") Long idCategory,
+            @Param("priceMin")Double priceMin,
+            @Param("priceMax")Double priceMax);
+
+    @Query(value = "select p from Product as p " +
+            " inner join Shop s on p.shop.id = s.id " +
+            "where (p.shop.city.name=:nameCity1 or p.shop.city.name=:nameCity2 or  p.shop.city.name=:nameCity3) " +
+            "and p.category.id= :idCategory " +
+            "and p.price between :priceMin and :priceMax " +
+            "and p.status=true ")
+    Page<Product> findByAllNoNameCategoryCity3(
+            Pageable pageable,
+            @Param("nameCity1") String nameCity1,
+            @Param("nameCity2") String nameCity2,
+            @Param("nameCity3") String nameCity3,
+            @Param("idCategory") Long idCategory,
+            @Param("priceMin")Double priceMin,
+            @Param("priceMax")Double priceMax);
+
+    @Query(value = "select p from Product as p " +
+            " inner join Shop s on p.shop.id = s.id " +
+            "where (p.shop.city.name=:nameCity1 or p.shop.city.name=:nameCity2 or  p.shop.city.name=:nameCity3  or  p.shop.city.name=:nameCity4) " +
+            "and p.category.id= :idCategory " +
+            "and p.price between :priceMin and :priceMax " +
+            "and p.status=true ")
+    Page<Product> findByAllNoNameCategoryCity4(
+            Pageable pageable,
+            @Param("nameCity1") String nameCity1,
+            @Param("nameCity2") String nameCity2,
+            @Param("nameCity3") String nameCity3,
+            @Param("nameCity4") String nameCity4,
+            @Param("idCategory") Long idCategory,
+            @Param("priceMin")Double priceMin,
+            @Param("priceMax")Double priceMax);
+    @Query(value = "select p from Product as p " +
+            " inner join Shop s on p.shop.id = s.id " +
+            "where p.price between :priceMin and :priceMax " +
+            "and p.category.id= :idCategory " +
+            "and p.status=true ")
+    Page<Product> findByAllNoNameCategoryCity5(
+            Pageable pageable,
+            @Param("idCategory") Long idCategory,
+            @Param("priceMin")Double priceMin,
+            @Param("priceMax")Double priceMax);
+
+    //search all name - no category
+
+    @Query(value = "select p from Product as p " +
+            " inner join Shop s on p.shop.id = s.id " +
+            "where p.name like :name  " +
+            "and p.shop.city.name=:nameCity1 " +
+            "and p.price between :priceMin and :priceMax " +
+            "and p.status=true ")
+    Page<Product> findByAllNameNoCategoryCity1(
+            Pageable pageable,
+            @Param("name") String name,
+            @Param("nameCity1") String nameCity1,
+            @Param("priceMin")Double priceMin,
+            @Param("priceMax")Double priceMax);
+
+    @Query(value = "select p from Product as p " +
+            " inner join Shop s on p.shop.id = s.id " +
+            "where p.name like :name  " +
+            "and (p.shop.city.name=:nameCity1 or p.shop.city.name=:nameCity2)" +
+            "and p.price between :priceMin and :priceMax " +
+            "and p.status=true ")
+    Page<Product> findByAllNameNoCategoryCity2(
+            Pageable pageable,
+            @Param("name") String name,
+            @Param("nameCity1") String nameCity1,
+            @Param("nameCity2") String nameCity2,
+            @Param("priceMin")Double priceMin,
+            @Param("priceMax")Double priceMax);
+
+    @Query(value = "select p from Product as p " +
+            " inner join Shop s on p.shop.id = s.id " +
+            "where p.name like :name  " +
+            "and (p.shop.city.name=:nameCity1 or p.shop.city.name=:nameCity2 or p.shop.city.name=:nameCity3)" +
+            "and p.price between :priceMin and :priceMax " +
+            "and p.status=true ")
+    Page<Product> findByAllNameNoCategoryCity3(
+            Pageable pageable,
+            @Param("name") String name,
+            @Param("nameCity1") String nameCity1,
+            @Param("nameCity2") String nameCity2,
+            @Param("nameCity3") String nameCity3,
+            @Param("priceMin")Double priceMin,
+            @Param("priceMax")Double priceMax);
+
+    @Query(value = "select p from Product as p " +
+            " inner join Shop s on p.shop.id = s.id " +
+            "where p.name like :name  " +
+            "and (p.shop.city.name=:nameCity1 or p.shop.city.name=:nameCity2 or p.shop.city.name=:nameCity3 or p.shop.city.name=:nameCity4)" +
+            "and p.price between :priceMin and :priceMax " +
+            "and p.status=true ")
+    Page<Product> findByAllNameNoCategoryCity4(
+            Pageable pageable,
+            @Param("name") String name,
+            @Param("nameCity1") String nameCity1,
+            @Param("nameCity2") String nameCity2,
+            @Param("nameCity3") String nameCity3,
+            @Param("nameCity4") String nameCity4,
+            @Param("priceMin")Double priceMin,
+            @Param("priceMax")Double priceMax);
+
+    @Query(value = "select p from Product as p " +
+            "where p.name like :name  " +
+            "and p.price between :priceMin and :priceMax " +
+            "and p.status=true ")
+    Page<Product> findByAllNameNoCategoryNoCity(
+            Pageable pageable,
+            @Param("name") String name,
+            @Param("priceMin")Double priceMin,
+            @Param("priceMax")Double priceMax);
+
+
+    //  findByAllNameCategoryCity1
+
+    @Query(value = "select p from Product as p " +
+            " inner join Shop s on p.shop.id = s.id " +
+            "where p.name like :name  and p.category.id = :idCategory " +
+            "and p.shop.city.name=:nameCity1 " +
+            "and p.price between :priceMin and :priceMax " +
+            "and p.status=true ")
+    Page<Product> findByAllNameCategoryCity1(
+            Pageable pageable,
+            @Param("name") String name,
+            @Param("idCategory") Long idCategory,
+            @Param("nameCity1") String nameCity1,
+            @Param("priceMin")Double priceMin,
+            @Param("priceMax")Double priceMax);
+
+    @Query(value = "select p from Product as p " +
+            " inner join Shop s on p.shop.id = s.id " +
+            "where p.name like :name  and p.category.id = :idCategory " +
+            "and (p.shop.city.name=:nameCity1 or p.shop.city.name=:nameCity2)" +
+            "and p.price between :priceMin and :priceMax " +
+            "and p.status=true ")
+    Page<Product> findByAllNameCategoryCity2(
+            Pageable pageable,
+            @Param("name") String name,
+            @Param("idCategory") Long idCategory,
+            @Param("nameCity1") String nameCity1,
+            @Param("nameCity2") String nameCity2,
+            @Param("priceMin")Double priceMin,
+            @Param("priceMax")Double priceMax);
+
+    @Query(value = "select p from Product as p " +
+            " inner join Shop s on p.shop.id = s.id " +
+            "where p.name like :name  and p.category.id = :idCategory " +
+            "and (p.shop.city.name=:nameCity1 or p.shop.city.name=:nameCity2 or p.shop.city.name=:nameCity3)" +
+            "and p.price between :priceMin and :priceMax " +
+            "and p.status=true ")
+    Page<Product> findByAllNameCategoryCity3(
+            Pageable pageable,
+            @Param("name") String name,
+            @Param("idCategory") Long idCategory,
+            @Param("nameCity1") String nameCity1,
+            @Param("nameCity2") String nameCity2,
+            @Param("nameCity3") String nameCity3,
+            @Param("priceMin")Double priceMin,
+            @Param("priceMax")Double priceMax);
+
+    @Query(value = "select p from Product as p " +
+            " inner join Shop s on p.shop.id = s.id " +
+            "where p.name like :name  and p.category.id = :idCategory " +
+            "and (p.shop.city.name=:nameCity1 or p.shop.city.name=:nameCity2 or p.shop.city.name=:nameCity3 or p.shop.city.name=:nameCity4)" +
+            "and p.price between :priceMin and :priceMax " +
+            "and p.status=true ")
+    Page<Product> findByAllNameCategoryCity4(
+            Pageable pageable,
+            @Param("name") String name,
+            @Param("idCategory") Long idCategory,
+            @Param("nameCity1") String nameCity1,
+            @Param("nameCity2") String nameCity2,
+            @Param("nameCity3") String nameCity3,
+            @Param("nameCity4") String nameCity4,
+            @Param("priceMin")Double priceMin,
+            @Param("priceMax")Double priceMax);
+
+    @Query(value = "select p from Product as p " +
+            "where p.name like :name  and p.category.id = :idCategory " +
+            "and p.price between :priceMin and :priceMax " +
+            "and p.status=true ")
+    Page<Product> findByAllNameCategoryNoCity(
+            Pageable pageable,
+            @Param("name") String name,
+            @Param("idCategory") Long idCategory,
+            @Param("priceMin")Double priceMin,
+            @Param("priceMax")Double priceMax);
+
+    @Query(value = "select p from Product as p where p.price between :priceMin and :priceMax")
+    Page<Product>findByPriceBetween(
+            Pageable pageable,
+            @Param("priceMin")Double priceMin,
+            @Param("priceMax")Double priceMax);
 }
