@@ -20,7 +20,7 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
     Page<Product> showProductOfShop(@Param("id")Long id,Pageable pageable);
 
     //Hiển thị tất cả sản phẩm của shop trên trang chủ:
-    @Query(value = "select p from Product p where p.status =true")
+    @Query(value = "select p from Product p where p.status =true order by p.date desc ")
     Page<Product> showAllProduct(Pageable pageable);
 
 

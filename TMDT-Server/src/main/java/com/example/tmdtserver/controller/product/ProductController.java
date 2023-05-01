@@ -79,6 +79,10 @@ public class ProductController {
     public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
         return new ResponseEntity<>(productService.save(product), HttpStatus.OK);
     }
+    @PostMapping("/views")
+    public ResponseEntity<Product> updateView(@RequestBody Product product) {
+        return new ResponseEntity<>(productService.save(product), HttpStatus.OK);
+    }
 //    @GetMapping(value = "/search-name/{name}")
 //    ResponseEntity<Page<Product>> showProductBySearchName(@PageableDefault(size = 8) Pageable pageable,
 //                                                      @PathVariable("name") String name) {
