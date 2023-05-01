@@ -30,9 +30,42 @@ public class ProductController {
     //Hiển thị tất cả sản phẩm trong 1 shop.
     @GetMapping("/shop/{id}")
     public ResponseEntity<Page<Product>> listProductOfShop(@PathVariable("id") Long id,
-                                                           @PageableDefault(size = 5) Pageable pageable) {
+                                                           @PageableDefault(size = 8) Pageable pageable) {
         Shop shop = shopService.findByIdAccount(id);
         Page<Product> products = productService.showProductOfShop(shop.getId(), pageable);
+        if (products.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @PostMapping("/search-shop/{id}")
+    ResponseEntity<Page<Product>> showSllProductSearch(@PathVariable("id") Long id,
+                                                       @PageableDefault(size = 8) Pageable pageable,
+                                                       @RequestBody Search search) {
+        Shop shop = shopService.findByIdAccount(id);
+        Page<Product> products = productService.showProductShopBySearch(shop.getId(),pageable, search);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @GetMapping("/shop-crud/{id}")
+    public ResponseEntity<Page<Product>> listProductOfShopCrud(@PathVariable("id") Long id,
+                                                               @PageableDefault(size = 5) Pageable pageable) {
+        Shop shop = shopService.findByIdAccount(id);
+        Page<Product> products = productService.showProductOfShop(shop.getId(), pageable);
+        if (products.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    // tim kiem san pham theo ten cua shop trong trang crud
+    @PostMapping("/shop-crud/{id}")
+    public ResponseEntity<Page<Product>> listProductSearchName(@PathVariable("id") Long id,
+                                                               @RequestBody Search search,
+                                                               @PageableDefault(size = 5) Pageable pageable) {
+        Shop shop = shopService.findByIdAccount(id);
+        Page<Product> products = productService.findProductShopByName(shop.getId(), search,pageable);
         if (products.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -79,6 +112,7 @@ public class ProductController {
     public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
         return new ResponseEntity<>(productService.save(product), HttpStatus.OK);
     }
+
     @PostMapping("/views")
     public ResponseEntity<Product> updateView(@RequestBody Product product) {
         return new ResponseEntity<>(productService.save(product), HttpStatus.OK);

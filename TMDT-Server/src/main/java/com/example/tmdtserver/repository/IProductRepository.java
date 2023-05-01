@@ -14,20 +14,39 @@ import javax.transaction.Transactional;
 
 @Repository
 @Transactional
-public interface IProductRepository extends JpaRepository<Product,Long> {
+public interface IProductRepository extends JpaRepository<Product, Long> {
     //Hiển thị tất cả các sản phẩm có trong shop
     @Query(value = "select  p from Product p where p.shop.id = :id and p.status = true ")
-    Page<Product> showProductOfShop(@Param("id")Long id,Pageable pageable);
+    Page<Product> showProductOfShop(@Param("id") Long id, Pageable pageable);
+
+    // tìm kiếm sản phẩm trong 1 shop
+    @Query(value = "select p from Product as p where p.shop.id = :id and p.category.id=:idCategory and p.status=true ")
+    Page<Product> findProductShopCategory(@Param("id") Long id,
+                                          @Param("idCategory") Long idCategory,
+                                          Pageable pageable);
+
+    //tìm kiếm sản phẩm trong 1 shop có tên không có category
+    @Query(value = "select p from Product as p where p.shop.id = :id and p.name like :name and p.status=true ")
+    Page<Product> findProductShopByNameNoCategory(@Param("id") Long id,
+                                          @Param("name") String name,
+                                          Pageable pageable);
+
+    //tìm kiếm sản phẩm trong 1 shop có tên có category
+    @Query(value = "select p from Product as p where p.shop.id = :id and p.name like :name and p.category.id = :idCategory and p.status=true ")
+    Page<Product> findProductShopByNameCategory(@Param("id") Long id,
+                                                  @Param("name") String name,
+                                                  @Param("idCategory") Long idCategory,
+                                                  Pageable pageable);
 
     //Hiển thị tất cả sản phẩm của shop trên trang chủ:
     @Query(value = "select p from Product p where p.status =true order by p.date desc ")
     Page<Product> showAllProduct(Pageable pageable);
 
 
-//    Xóa sản phẩm có trong shop
+    //    Xóa sản phẩm có trong shop
     @Modifying
     @Query(value = "UPDATE Product p  set p.status = false where p.id = :id")
-    void deleteProductByIdProduct(@Param("id")Long id);
+    void deleteProductByIdProduct(@Param("id") Long id);
 
     // FindByAll
     @Query(value = "select p from Product as p inner join Category c on p.category.id = c.id inner join Shop s on p.shop.id = s.id " +
@@ -39,19 +58,20 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
             Pageable pageable,
             @Param("name") String name,
             @Param("idCategory") Long idCategory,
-            @Param("priceMin")Double priceMin,
-            @Param("priceMax")Double priceMax);
+            @Param("priceMin") Double priceMin,
+            @Param("priceMax") Double priceMax);
 
     @Query(value = "select p from Product as p where p.name like :name " +
             "and p.price between :priceMin and :priceMax " +
             "and p.status=true ")
     Page<Product> findByAllNoCategory(Pageable pageable,
-                                 @Param("name") String name,
-                                 @Param("priceMin")Double priceMin,
-                                 @Param("priceMax")Double priceMax);
-   @Query(value = "select p from Product as  p where p.name like :name and p.status=true ")
-    Page<Product>showProductBySearchName(Pageable pageable,
-                                          @Param("name")String name);
+                                      @Param("name") String name,
+                                      @Param("priceMin") Double priceMin,
+                                      @Param("priceMax") Double priceMax);
+
+    @Query(value = "select p from Product as  p where p.name like :name and p.status=true ")
+    Page<Product> showProductBySearchName(Pageable pageable,
+                                          @Param("name") String name);
 
     @Query(value = "select p from Product as p inner join Category c on p.category.id = c.id inner join Shop s on p.shop.id = s.id " +
             "where p.shop.city.name=:nameCity1 " +
@@ -62,8 +82,8 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
             Pageable pageable,
             @Param("nameCity1") String nameCity1,
             @Param("idCategory") Long idCategory,
-            @Param("priceMin")Double priceMin,
-            @Param("priceMax")Double priceMax);
+            @Param("priceMin") Double priceMin,
+            @Param("priceMax") Double priceMax);
 
     @Query(value = "select p from Product as p inner join Category c on p.category.id = c.id inner join Shop s on p.shop.id = s.id " +
             "where p.shop.city.name=:nameCity1 or p.shop.city.name=:nameCity2 " +
@@ -75,8 +95,8 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
             @Param("nameCity1") String nameCity1,
             @Param("nameCity2") String nameCity2,
             @Param("idCategory") Long idCategory,
-            @Param("priceMin")Double priceMin,
-            @Param("priceMax")Double priceMax);
+            @Param("priceMin") Double priceMin,
+            @Param("priceMax") Double priceMax);
 
     @Query(value = "select p from Product as p inner join Category c on p.category.id = c.id inner join Shop s on p.shop.id = s.id " +
             "where p.shop.city.name=:nameCity1 or p.shop.city.name=:nameCity2 or p.shop.city.name=:nameCity3 " +
@@ -89,8 +109,8 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
             @Param("nameCity2") String nameCity2,
             @Param("nameCity3") String nameCity3,
             @Param("idCategory") Long idCategory,
-            @Param("priceMin")Double priceMin,
-            @Param("priceMax")Double priceMax);
+            @Param("priceMin") Double priceMin,
+            @Param("priceMax") Double priceMax);
 
     @Query(value = "select p from Product as p inner join Category c on p.category.id = c.id inner join Shop s on p.shop.id = s.id " +
             "where p.shop.city.name=:nameCity1 or p.shop.city.name=:nameCity2 or p.shop.city.name=:nameCity3 or p.shop.city.name=:nameCity4 " +
@@ -104,8 +124,8 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
             @Param("nameCity3") String nameCity3,
             @Param("nameCity4") String nameCity4,
             @Param("idCategory") Long idCategory,
-            @Param("priceMin")Double priceMin,
-            @Param("priceMax")Double priceMax);
+            @Param("priceMin") Double priceMin,
+            @Param("priceMax") Double priceMax);
 
     @Query(value = "select p from Product as p inner join Category c on p.category.id = c.id inner join Shop s on p.shop.id = s.id " +
             "where p.category.id = :idCategory " +
@@ -114,8 +134,8 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
     Page<Product> findByAllCity5(
             Pageable pageable,
             @Param("idCategory") Long idCategory,
-            @Param("priceMin")Double priceMin,
-            @Param("priceMax")Double priceMax);
+            @Param("priceMin") Double priceMin,
+            @Param("priceMax") Double priceMax);
 
     // update search
 
@@ -129,8 +149,8 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
     Page<Product> findByAllNoNameNoCategoryCity1(
             Pageable pageable,
             @Param("nameCity1") String nameCity1,
-            @Param("priceMin")Double priceMin,
-            @Param("priceMax")Double priceMax);
+            @Param("priceMin") Double priceMin,
+            @Param("priceMax") Double priceMax);
 
     @Query(value = "select p from Product as p " +
             " inner join Shop s on p.shop.id = s.id " +
@@ -141,8 +161,8 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
             Pageable pageable,
             @Param("nameCity1") String nameCity1,
             @Param("nameCity2") String nameCity2,
-            @Param("priceMin")Double priceMin,
-            @Param("priceMax")Double priceMax);
+            @Param("priceMin") Double priceMin,
+            @Param("priceMax") Double priceMax);
 
     @Query(value = "select p from Product as p " +
             " inner join Shop s on p.shop.id = s.id " +
@@ -154,8 +174,8 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
             @Param("nameCity1") String nameCity1,
             @Param("nameCity2") String nameCity2,
             @Param("nameCity3") String nameCity3,
-            @Param("priceMin")Double priceMin,
-            @Param("priceMax")Double priceMax);
+            @Param("priceMin") Double priceMin,
+            @Param("priceMax") Double priceMax);
 
     @Query(value = "select p from Product as p " +
             " inner join Shop s on p.shop.id = s.id " +
@@ -168,16 +188,17 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
             @Param("nameCity2") String nameCity2,
             @Param("nameCity3") String nameCity3,
             @Param("nameCity4") String nameCity4,
-            @Param("priceMin")Double priceMin,
-            @Param("priceMax")Double priceMax);
+            @Param("priceMin") Double priceMin,
+            @Param("priceMax") Double priceMax);
+
     @Query(value = "select p from Product as p " +
             " inner join Shop s on p.shop.id = s.id " +
             "where p.price between :priceMin and :priceMax " +
             "and p.status=true ")
     Page<Product> findByAllNoNameNoCategoryCity5(
             Pageable pageable,
-            @Param("priceMin")Double priceMin,
-            @Param("priceMax")Double priceMax);
+            @Param("priceMin") Double priceMin,
+            @Param("priceMax") Double priceMax);
 
     // no name - category
 
@@ -191,8 +212,8 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
             Pageable pageable,
             @Param("nameCity1") String nameCity1,
             @Param("idCategory") Long idCategory,
-            @Param("priceMin")Double priceMin,
-            @Param("priceMax")Double priceMax);
+            @Param("priceMin") Double priceMin,
+            @Param("priceMax") Double priceMax);
 
     @Query(value = "select p from Product as p " +
             " inner join Shop s on p.shop.id = s.id " +
@@ -205,8 +226,8 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
             @Param("nameCity1") String nameCity1,
             @Param("nameCity2") String nameCity2,
             @Param("idCategory") Long idCategory,
-            @Param("priceMin")Double priceMin,
-            @Param("priceMax")Double priceMax);
+            @Param("priceMin") Double priceMin,
+            @Param("priceMax") Double priceMax);
 
     @Query(value = "select p from Product as p " +
             " inner join Shop s on p.shop.id = s.id " +
@@ -220,8 +241,8 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
             @Param("nameCity2") String nameCity2,
             @Param("nameCity3") String nameCity3,
             @Param("idCategory") Long idCategory,
-            @Param("priceMin")Double priceMin,
-            @Param("priceMax")Double priceMax);
+            @Param("priceMin") Double priceMin,
+            @Param("priceMax") Double priceMax);
 
     @Query(value = "select p from Product as p " +
             " inner join Shop s on p.shop.id = s.id " +
@@ -236,8 +257,9 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
             @Param("nameCity3") String nameCity3,
             @Param("nameCity4") String nameCity4,
             @Param("idCategory") Long idCategory,
-            @Param("priceMin")Double priceMin,
-            @Param("priceMax")Double priceMax);
+            @Param("priceMin") Double priceMin,
+            @Param("priceMax") Double priceMax);
+
     @Query(value = "select p from Product as p " +
             " inner join Shop s on p.shop.id = s.id " +
             "where p.price between :priceMin and :priceMax " +
@@ -246,8 +268,8 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
     Page<Product> findByAllNoNameCategoryCity5(
             Pageable pageable,
             @Param("idCategory") Long idCategory,
-            @Param("priceMin")Double priceMin,
-            @Param("priceMax")Double priceMax);
+            @Param("priceMin") Double priceMin,
+            @Param("priceMax") Double priceMax);
 
     //search all name - no category
 
@@ -261,8 +283,8 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
             Pageable pageable,
             @Param("name") String name,
             @Param("nameCity1") String nameCity1,
-            @Param("priceMin")Double priceMin,
-            @Param("priceMax")Double priceMax);
+            @Param("priceMin") Double priceMin,
+            @Param("priceMax") Double priceMax);
 
     @Query(value = "select p from Product as p " +
             " inner join Shop s on p.shop.id = s.id " +
@@ -275,8 +297,8 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
             @Param("name") String name,
             @Param("nameCity1") String nameCity1,
             @Param("nameCity2") String nameCity2,
-            @Param("priceMin")Double priceMin,
-            @Param("priceMax")Double priceMax);
+            @Param("priceMin") Double priceMin,
+            @Param("priceMax") Double priceMax);
 
     @Query(value = "select p from Product as p " +
             " inner join Shop s on p.shop.id = s.id " +
@@ -290,8 +312,8 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
             @Param("nameCity1") String nameCity1,
             @Param("nameCity2") String nameCity2,
             @Param("nameCity3") String nameCity3,
-            @Param("priceMin")Double priceMin,
-            @Param("priceMax")Double priceMax);
+            @Param("priceMin") Double priceMin,
+            @Param("priceMax") Double priceMax);
 
     @Query(value = "select p from Product as p " +
             " inner join Shop s on p.shop.id = s.id " +
@@ -306,8 +328,8 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
             @Param("nameCity2") String nameCity2,
             @Param("nameCity3") String nameCity3,
             @Param("nameCity4") String nameCity4,
-            @Param("priceMin")Double priceMin,
-            @Param("priceMax")Double priceMax);
+            @Param("priceMin") Double priceMin,
+            @Param("priceMax") Double priceMax);
 
     @Query(value = "select p from Product as p " +
             "where p.name like :name  " +
@@ -316,8 +338,8 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
     Page<Product> findByAllNameNoCategoryNoCity(
             Pageable pageable,
             @Param("name") String name,
-            @Param("priceMin")Double priceMin,
-            @Param("priceMax")Double priceMax);
+            @Param("priceMin") Double priceMin,
+            @Param("priceMax") Double priceMax);
 
 
     //  findByAllNameCategoryCity1
@@ -333,8 +355,8 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
             @Param("name") String name,
             @Param("idCategory") Long idCategory,
             @Param("nameCity1") String nameCity1,
-            @Param("priceMin")Double priceMin,
-            @Param("priceMax")Double priceMax);
+            @Param("priceMin") Double priceMin,
+            @Param("priceMax") Double priceMax);
 
     @Query(value = "select p from Product as p " +
             " inner join Shop s on p.shop.id = s.id " +
@@ -348,8 +370,8 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
             @Param("idCategory") Long idCategory,
             @Param("nameCity1") String nameCity1,
             @Param("nameCity2") String nameCity2,
-            @Param("priceMin")Double priceMin,
-            @Param("priceMax")Double priceMax);
+            @Param("priceMin") Double priceMin,
+            @Param("priceMax") Double priceMax);
 
     @Query(value = "select p from Product as p " +
             " inner join Shop s on p.shop.id = s.id " +
@@ -364,8 +386,8 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
             @Param("nameCity1") String nameCity1,
             @Param("nameCity2") String nameCity2,
             @Param("nameCity3") String nameCity3,
-            @Param("priceMin")Double priceMin,
-            @Param("priceMax")Double priceMax);
+            @Param("priceMin") Double priceMin,
+            @Param("priceMax") Double priceMax);
 
     @Query(value = "select p from Product as p " +
             " inner join Shop s on p.shop.id = s.id " +
@@ -381,8 +403,8 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
             @Param("nameCity2") String nameCity2,
             @Param("nameCity3") String nameCity3,
             @Param("nameCity4") String nameCity4,
-            @Param("priceMin")Double priceMin,
-            @Param("priceMax")Double priceMax);
+            @Param("priceMin") Double priceMin,
+            @Param("priceMax") Double priceMax);
 
     @Query(value = "select p from Product as p " +
             "where p.name like :name  and p.category.id = :idCategory " +
@@ -392,12 +414,12 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
             Pageable pageable,
             @Param("name") String name,
             @Param("idCategory") Long idCategory,
-            @Param("priceMin")Double priceMin,
-            @Param("priceMax")Double priceMax);
+            @Param("priceMin") Double priceMin,
+            @Param("priceMax") Double priceMax);
 
     @Query(value = "select p from Product as p where p.price between :priceMin and :priceMax")
-    Page<Product>findByPriceBetween(
+    Page<Product> findByPriceBetween(
             Pageable pageable,
-            @Param("priceMin")Double priceMin,
-            @Param("priceMax")Double priceMax);
+            @Param("priceMin") Double priceMin,
+            @Param("priceMax") Double priceMax);
 }

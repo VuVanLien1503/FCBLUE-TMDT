@@ -51,9 +51,9 @@ public class ProductServiceImpl implements IProductService {
         Page<Product> products = null;
 
         if (search.getName().equals("") && search.getArrayCity().size() == 0 && search.getIdCategory() == 0) {
-            if (search.getPriceMin()!=0 || search.getPriceMax()!=100000000){
-                products=productRepository.findByPriceBetween(pageable,search.getPriceMin(),search.getPriceMax());
-            }else {
+            if (search.getPriceMin() != 0 || search.getPriceMax() != 100000000) {
+                products = productRepository.findByPriceBetween(pageable, search.getPriceMin(), search.getPriceMax());
+            } else {
                 products = productRepository.showAllProduct(pageable);
             }
         } else {
@@ -150,6 +150,37 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public Page<Product> showProductBySearchName(Pageable pageable, String name) {
         Page<Product> products = productRepository.showProductBySearchName(pageable, "%" + name + "%");
+        return products;
+    }
+
+    @Override
+    public Page<Product> showProductShopBySearch(Long id, Pageable pageable, Search search) {
+        Page<Product> products = null;
+
+        if (search.getName().equals("") && search.getIdCategory() == 0) {
+            products = productRepository.showProductOfShop(id, pageable);
+        }else {
+            if (search.getName().equals("")){
+                products=productRepository.findProductShopCategory(id,search.getIdCategory(),pageable);
+            }else {
+                if (search.getIdCategory()==0){
+                    products=productRepository.findProductShopByNameNoCategory(id,"%"+search.getName()+"%",pageable);
+                }else {
+                    products=productRepository.findProductShopByNameCategory(id,"%"+search.getName()+"%",search.getIdCategory(),pageable);
+                }
+            }
+        }
+        return products;
+    }
+
+    @Override
+    public Page<Product> findProductShopByName(Long id, Search search, Pageable pageable) {
+        Page<Product> products = null;
+        if (search.getName().equals("")) {
+            products = productRepository.showProductOfShop(id, pageable);
+        }else {
+            products=productRepository.findProductShopByNameNoCategory(id,"%"+search.getName()+"%",pageable);
+        }
         return products;
     }
 }
