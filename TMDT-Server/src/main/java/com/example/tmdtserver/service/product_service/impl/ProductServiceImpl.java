@@ -2,7 +2,10 @@ package com.example.tmdtserver.service.product_service.impl;
 
 import com.example.tmdtserver.model.Product;
 import com.example.tmdtserver.model.Search;
+import com.example.tmdtserver.model.bill.Bill;
 import com.example.tmdtserver.model.shop.Shop;
+import com.example.tmdtserver.repository.IAccountRepository;
+import com.example.tmdtserver.repository.IBillRepository;
 import com.example.tmdtserver.repository.IProductRepository;
 import com.example.tmdtserver.service.product_service.my_interface.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,8 @@ import java.util.Map;
 public class ProductServiceImpl implements IProductService {
     @Autowired
     private IProductRepository productRepository;
+    @Autowired
+    private IBillRepository billRepository;
 
     @Override
     public Page<Product> findALl(Pageable pageable) {
@@ -37,7 +42,13 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public void remove(Long id) {
-        productRepository.deleteProductByIdProduct(id);
+        Bill bill= billRepository.getBillByIdProduct(id);
+        if (bill == null){
+            productRepository.deleteProductByIdProduct(id);
+        }else {
+            billRepository.updateBillById5(bill.getId());
+            productRepository.deleteProductByIdProduct(id);
+        }
     }
 
     @Override
