@@ -1,6 +1,6 @@
 package com.example.tmdtserver.repository;
 
-import com.example.tmdtserver.model.Product;
+import com.example.tmdtserver.model.product.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

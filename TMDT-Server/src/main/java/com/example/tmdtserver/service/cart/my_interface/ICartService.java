@@ -1,7 +1,7 @@
 package com.example.tmdtserver.service.cart.my_interface;
 
-import com.example.tmdtserver.model.Product;
-import com.example.tmdtserver.model.ProductConvert;
+import com.example.tmdtserver.model.product.Product;
+import com.example.tmdtserver.model.product.ProductConvert;
 import com.example.tmdtserver.model.cart.Cart;
 import com.example.tmdtserver.service.shop_service.core.ICrudService;
 

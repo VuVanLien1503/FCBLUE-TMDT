@@ -1,9 +1,10 @@
 package com.example.tmdtserver.service.product_service.impl;
 
-import com.example.tmdtserver.model.Product;
+import com.example.tmdtserver.model.product.EvaluateDetail;
+import com.example.tmdtserver.model.product.Product;
 import com.example.tmdtserver.model.Search;
-import com.example.tmdtserver.model.shop.Shop;
 import com.example.tmdtserver.repository.IBillRepository;
+import com.example.tmdtserver.repository.IEvaluateRepository;
 import com.example.tmdtserver.repository.IProductRepository;
 import com.example.tmdtserver.service.product_service.my_interface.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class ProductServiceImpl implements IProductService {
@@ -22,6 +20,8 @@ public class ProductServiceImpl implements IProductService {
     private IProductRepository productRepository;
     @Autowired
     private IBillRepository billRepository;
+    @Autowired
+    private IEvaluateRepository evaluateRepository;
 
     @Override
     public Page<Product> findALl(Pageable pageable) {
@@ -154,6 +154,81 @@ public class ProductServiceImpl implements IProductService {
     public Page<Product> showProductBySearchName(Pageable pageable, String name) {
         Page<Product> products = productRepository.showProductBySearchName(pageable, "%" + name + "%");
         return products;
+    }
+
+    @Override
+    public EvaluateDetail saveRating(EvaluateDetail evaluateDetail) {
+        List<EvaluateDetail> evaluateDetails = evaluateRepository.showRating(evaluateDetail.getProduct().getId());
+        boolean check = false;
+        if (!evaluateDetails.isEmpty()){
+            for (int i = 0; i < evaluateDetails.size(); i++) {
+                if (evaluateDetails.get(i).getProduct().getId().equals(evaluateDetail.getProduct().getId()) &&
+                        evaluateDetails.get(i).getAccount().getId().equals(evaluateDetail.getAccount().getId()) ){
+                    check = true;
+                    break;
+                }
+            }
+        }
+        if (check){
+           evaluateRepository.updateRating(evaluateDetail.getRating(),evaluateDetail.getProduct().getId(),evaluateDetail.getAccount().getId());
+           rating(evaluateDetail.getProduct().getId(),evaluateDetail);
+           return evaluateDetail;
+        }else {
+            rating(evaluateDetail.getProduct().getId(),evaluateDetail);
+            return evaluateRepository.save(evaluateDetail);
+        }
+
+    }
+
+
+    //id của product
+    @Override
+    public void rating(Long id,EvaluateDetail evaluateDetail) {
+        List<EvaluateDetail> evaluateDetails = evaluateRepository.showRating(id);
+        Long sum = 0L;
+        boolean check = false;
+        if (!evaluateDetails.isEmpty()){
+            for (int i = 0; i < evaluateDetails.size(); i++) {
+                if (evaluateDetails.get(i).getProduct().getId().equals(evaluateDetail.getProduct().getId()) &&
+                        evaluateDetails.get(i).getAccount().getId().equals(evaluateDetail.getAccount().getId()) ){
+                    sum += evaluateDetail.getRating();
+                }else {
+                    sum += evaluateDetails.get(i).getRating();
+                }
+                }
+
+            for (int i = 0; i < evaluateDetails.size(); i++) {
+                if (evaluateDetails.get(i).getProduct().getId().equals(evaluateDetail.getProduct().getId()) &&
+                        evaluateDetails.get(i).getAccount().getId().equals(evaluateDetail.getAccount().getId()) ){
+                    check = true;
+                    break;
+                }
+            }
+            if (check){
+                Product product = productRepository.findById(id).orElse(null);
+                product.setRating(sum/(evaluateDetails.size()));
+                Long numberPeople = (long) evaluateDetails.size();
+                product.setNumberPeople(numberPeople);
+                productRepository.save(product);
+            }else {
+                sum = sum + evaluateDetail.getRating();
+                Product product = productRepository.findById(id).orElse(null);
+                product.setRating(sum/(evaluateDetails.size()+1));
+                Long numberPeople = (long) evaluateDetails.size();
+                product.setNumberPeople(numberPeople+1);
+                productRepository.save(product);
+            }
+        }else {
+            Product product = productRepository.findById(id).orElse(null);
+            product.setRating(evaluateDetail.getRating()/(product.getNumberPeople()+1));
+            product.setNumberPeople(product.getNumberPeople()+1);
+            productRepository.save(product);
+        }
+    }
+
+    @Override
+    public List<EvaluateDetail> showRating(Long id) {
+        return evaluateRepository.showRating(id);
     }
 
     @Override

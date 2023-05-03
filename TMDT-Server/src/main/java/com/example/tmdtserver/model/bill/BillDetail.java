@@ -1,6 +1,6 @@
 package com.example.tmdtserver.model.bill;
 
-import com.example.tmdtserver.model.Product;
+import com.example.tmdtserver.model.product.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

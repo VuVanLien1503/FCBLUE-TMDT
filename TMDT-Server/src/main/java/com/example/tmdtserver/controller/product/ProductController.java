@@ -1,9 +1,9 @@
 package com.example.tmdtserver.controller.product;
 
-import com.example.tmdtserver.model.Product;
+import com.example.tmdtserver.model.product.EvaluateDetail;
+import com.example.tmdtserver.model.product.Product;
 import com.example.tmdtserver.model.Search;
 import com.example.tmdtserver.model.shop.Shop;
-import com.example.tmdtserver.repository.IShopRepository;
 import com.example.tmdtserver.service.product_service.my_interface.IProductService;
 import com.example.tmdtserver.service.shop_service.my_interface.IShopService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.List;
 
 @RestController
 @CrossOrigin("*")
@@ -124,4 +122,20 @@ public class ProductController {
 //        Page<Product> products = productService.showProductBySearchName(pageable, name);
 //        return new ResponseEntity<>(products, HttpStatus.OK);
 //    }
+
+    // Lưu đánh giá của 1 sản phẩm
+    @PostMapping("rating")
+    public ResponseEntity<EvaluateDetail> saveRating(@RequestBody EvaluateDetail evaluateDetail){
+        return new ResponseEntity<>(productService.saveRating(evaluateDetail),HttpStatus.CREATED);
+    }
+
+    // Truy xuất tất cả đánh giá của 1 sản phẩm theo id sản phẩm
+    @GetMapping("rating/{id}")
+    private ResponseEntity<List<EvaluateDetail>> showRatingByIdProduct(@PathVariable("id")Long id){
+        List<EvaluateDetail> evaluateDetails = productService.showRating(id);
+        if (evaluateDetails.isEmpty()){
+            return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(evaluateDetails,HttpStatus.OK);
+    }
 }

@@ -1,6 +1,6 @@
 package com.example.tmdtserver.service.cart.impl;
 
-import com.example.tmdtserver.model.Product;
+import com.example.tmdtserver.model.product.Product;
 import com.example.tmdtserver.model.bill.Bill;
 import com.example.tmdtserver.model.bill.BillDetail;
 import com.example.tmdtserver.repository.IBillDetailRepository;

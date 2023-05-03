@@ -1,5 +1,6 @@
-package com.example.tmdtserver.model;
+package com.example.tmdtserver.model.product;
 
+import com.example.tmdtserver.model.Category;
 import com.example.tmdtserver.model.shop.Shop;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,5 +39,7 @@ public class Product {
     private Boolean status = true;
     private Long views = 0L;
     private Date date ;
+    private Long rating = 0L;
+    private Long numberPeople = 0L;
 
 }

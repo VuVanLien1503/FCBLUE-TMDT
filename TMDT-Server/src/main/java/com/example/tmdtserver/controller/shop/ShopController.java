@@ -1,7 +1,7 @@
 package com.example.tmdtserver.controller.shop;
 
 import com.example.tmdtserver.model.*;
-import com.example.tmdtserver.model.bill.BillDetail;
+import com.example.tmdtserver.model.product.Product;
 import com.example.tmdtserver.model.shop.Shop;
 import com.example.tmdtserver.service.category_service.ICategoryService;
 import com.example.tmdtserver.service.product_service.my_interface.IProductService;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @RestController
 @CrossOrigin("*")

@@ -1,8 +1,8 @@
 package com.example.tmdtserver.controller.cart;
 
 import com.example.tmdtserver.model.Account;
-import com.example.tmdtserver.model.Product;
-import com.example.tmdtserver.model.ProductConvert;
+import com.example.tmdtserver.model.product.Product;
+import com.example.tmdtserver.model.product.ProductConvert;
 import com.example.tmdtserver.model.cart.Cart;
 import com.example.tmdtserver.service.account.IAccountService;
 import com.example.tmdtserver.service.cart.my_interface.ICartService;
@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @CrossOrigin("*")

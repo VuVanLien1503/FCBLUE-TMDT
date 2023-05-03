@@ -1,14 +1,13 @@
 package com.example.tmdtserver.model.cart;
 
 import com.example.tmdtserver.model.Account;
-import com.example.tmdtserver.model.Product;
+import com.example.tmdtserver.model.product.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.HashMap;
 import java.util.Map;
 
 @Entity

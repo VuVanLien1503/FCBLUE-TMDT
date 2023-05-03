@@ -1,4 +1,4 @@
-package com.example.tmdtserver.model;
+package com.example.tmdtserver.model.product;
 
 import javax.persistence.Embeddable;
 import java.io.Serializable;

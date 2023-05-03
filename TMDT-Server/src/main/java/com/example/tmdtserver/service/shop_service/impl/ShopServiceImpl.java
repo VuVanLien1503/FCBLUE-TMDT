@@ -1,8 +1,6 @@
 package com.example.tmdtserver.service.shop_service.impl;
 import com.example.tmdtserver.model.Account;
 import com.example.tmdtserver.model.AccountConvert;
-import com.example.tmdtserver.model.Product;
-import com.example.tmdtserver.model.ProductConvert;
 import com.example.tmdtserver.model.bill.BillDetail;
 import com.example.tmdtserver.model.shop.Shop;
 import com.example.tmdtserver.repository.IAccountRepository;

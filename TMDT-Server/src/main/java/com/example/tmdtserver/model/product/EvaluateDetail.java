@@ -1,24 +1,22 @@
-package com.example.tmdtserver.model;
+package com.example.tmdtserver.model.product;
 
+import com.example.tmdtserver.model.Account;
 import com.example.tmdtserver.model.bill.Bill;
-import com.example.tmdtserver.model.bill.BillDetailId;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.EmbeddedId;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
+import javax.persistence.*;
 
-@NoArgsConstructor
-@AllArgsConstructor
+@Entity
 @Getter
 @Setter
-public class ProductConvert {
+@NoArgsConstructor
+@AllArgsConstructor
+public class EvaluateDetail {
     @EmbeddedId
-    private ProductConvertId productConvertId;
+    private EvaluateId evaluateId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId(value = "productId")
@@ -27,6 +25,5 @@ public class ProductConvert {
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId(value = "accountId")
     private Account account ;
-
-    private Integer quantity;
+    private Long rating;
 }
