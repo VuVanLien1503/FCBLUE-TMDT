@@ -64,7 +64,7 @@ public class BillController {
     //Hiển thị các đơn hàng mà shop đã bán:
     @GetMapping("/shops/{idShop}")
     private ResponseEntity<Page<BillDetail>> showBillOfShop(@PathVariable("idShop")Long id,
-                                                            @PageableDefault(size = 9)Pageable pageable){
+                                                            @PageableDefault(size = 5)Pageable pageable){
         Page<BillDetail> billDetails = billService.showBillOfShop(id, pageable);
         if (billDetails.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
