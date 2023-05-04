@@ -102,15 +102,12 @@ public class ProductController {
     //    Hiển thị chi tiết 1 sản phẩm
     @GetMapping("/{id}")
     public ResponseEntity<Product> findById(@PathVariable("id") Long id) {
-        double total = productService.totalQuantity(id);
         Product product = productService.findById(id);
-        if (product == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }else {
-            product.setTotalQuantity(total);
-            productService.save(product);
-            return new ResponseEntity<>(product, HttpStatus.OK);
-        }
+        double total = product.getTotalQuantity();
+        product.setTotalQuantity(total);
+        productService.save(product);
+        return new ResponseEntity<>(product, HttpStatus.OK);
+
     }
 
 
