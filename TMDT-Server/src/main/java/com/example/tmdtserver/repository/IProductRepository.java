@@ -422,4 +422,8 @@ public interface IProductRepository extends JpaRepository<Product, Long> {
             Pageable pageable,
             @Param("priceMin") Double priceMin,
             @Param("priceMax") Double priceMax);
+
+//    HIển thị số lượng sản phẩm bán ra
+    @Query(value = "select sum(bd.quantity) from BillDetail bd where bd.product.id = :id")
+    Double totalQuantity(@Param("id")Long id);
 }

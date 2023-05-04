@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin("*")
@@ -91,11 +92,15 @@ public class ProductController {
     //    Hiển thị chi tiết 1 sản phẩm
     @GetMapping("/{id}")
     public ResponseEntity<Product> findById(@PathVariable("id") Long id) {
+        double total = productService.totalQuantity(id);
         Product product = productService.findById(id);
         if (product == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else {
+            product.setTotalQuantity(total);
+            productService.save(product);
+            return new ResponseEntity<>(product, HttpStatus.OK);
         }
-        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
 
@@ -137,5 +142,11 @@ public class ProductController {
             return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(evaluateDetails,HttpStatus.OK);
+    }
+
+    //HIển thị số lượng bán ra của 1 sản phẩm
+    @GetMapping("/quantity/{id}")
+    private ResponseEntity<Double> totalQuantity(@PathVariable("id")Long id){
+        return new ResponseEntity<>(productService.totalQuantity(id),HttpStatus.OK);
     }
 }

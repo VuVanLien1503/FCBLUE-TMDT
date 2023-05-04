@@ -227,6 +227,11 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
+    public Double totalQuantity(Long id) {
+        return productRepository.totalQuantity(id);
+    }
+
+    @Override
     public List<EvaluateDetail> showRating(Long id) {
         return evaluateRepository.showRating(id);
     }

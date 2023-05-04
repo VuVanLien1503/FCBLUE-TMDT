@@ -41,5 +41,6 @@ public class Product {
     private Date date ;
     private Long rating = 0L;
     private Long numberPeople = 0L;
+    private Double totalQuantity;
 
 }

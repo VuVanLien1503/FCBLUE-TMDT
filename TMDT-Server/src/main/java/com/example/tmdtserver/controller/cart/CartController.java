@@ -1,12 +1,14 @@
 package com.example.tmdtserver.controller.cart;
 
 import com.example.tmdtserver.model.Account;
+import com.example.tmdtserver.model.Voucher;
 import com.example.tmdtserver.model.product.Product;
 import com.example.tmdtserver.model.product.ProductConvert;
 import com.example.tmdtserver.model.cart.Cart;
 import com.example.tmdtserver.service.account.IAccountService;
 import com.example.tmdtserver.service.cart.my_interface.ICartService;
 import com.example.tmdtserver.service.product_service.my_interface.IProductService;
+import com.example.tmdtserver.service.voucher_service.IVoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,8 @@ public class CartController {
     private IAccountService accountService;
     @Autowired
     private IProductService productService;
+    @Autowired
+    private IVoucherService voucherService;
 
     //Tạo mới một giỏ hàng
     @PostMapping("{id}")
@@ -97,6 +101,18 @@ public class CartController {
 
 //    //Thanh toán sản phẩm
 //    @PostMapping("/pays/product/{id}")
+    //Trả ra giá trị của voucher
+    @GetMapping("voucher/{idShop}/{voucher}")
+    public ResponseEntity<Double> checkVoucher(@PathVariable("idShop")Long id,
+                                               @PathVariable("voucher")String voucher){
+        return new ResponseEntity<>(voucherService.percentVoucher(id,voucher),HttpStatus.OK);
+    }
+//  update lại voucher sau khi thanh toán xong
+    @PostMapping("voucher/{idShop}/{voucher}")
+    public ResponseEntity<Voucher> updateVoucher(@PathVariable("idShop")Long id,
+                                                 @PathVariable("voucher")String voucher){
+        return new ResponseEntity<>(voucherService.updateVoucher(id, voucher),HttpStatus.OK);
+    }
 
 }
 

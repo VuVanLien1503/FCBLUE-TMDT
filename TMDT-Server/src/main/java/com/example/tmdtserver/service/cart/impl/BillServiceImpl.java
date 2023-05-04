@@ -7,6 +7,7 @@ import com.example.tmdtserver.repository.IBillDetailRepository;
 import com.example.tmdtserver.repository.IBillRepository;
 import com.example.tmdtserver.service.cart.my_interface.IBillService;
 import com.example.tmdtserver.service.product_service.my_interface.IProductService;
+import com.example.tmdtserver.service.voucher_service.IVoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +21,8 @@ public class BillServiceImpl implements IBillService {
     private IBillRepository billRepository;
     @Autowired
     private IProductService productService;
+    @Autowired
+    private IVoucherService voucherService;
     @Override
     public Page<Bill> findALl(Pageable pageable) {
         return billRepository.findAll(pageable);

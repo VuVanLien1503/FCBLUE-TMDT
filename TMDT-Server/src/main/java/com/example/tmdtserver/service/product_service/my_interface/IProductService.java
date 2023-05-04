@@ -23,5 +23,6 @@ public interface IProductService extends ICrudService<Product> {
     EvaluateDetail saveRating(EvaluateDetail evaluateDetail);
 
     void rating (Long id,EvaluateDetail evaluateDetail);
+    Double totalQuantity(Long id);
 
 }
