@@ -56,6 +56,16 @@ public class ProductController {
         }
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
+    @GetMapping("/shop-crud-all/{id}")
+    public ResponseEntity<Page<Product>> listProductOfShopCrudAll(@PathVariable("id") Long id,
+                                                               @PageableDefault() Pageable pageable) {
+        Shop shop = shopService.findByIdAccount(id);
+        Page<Product> products = productService.showProductOfShop(shop.getId(), pageable);
+        if (products.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
 
     // tim kiem san pham theo ten cua shop trong trang crud
     @PostMapping("/shop-crud/{id}")
