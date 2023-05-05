@@ -40,7 +40,7 @@ public class ProductController {
 
     @PostMapping("/search-shop/{id}")
     ResponseEntity<Page<Product>> showSllProductSearch(@PathVariable("id") Long id,
-                                                       @PageableDefault(size = 8) Pageable pageable,
+                                                       @PageableDefault(size = 5) Pageable pageable,
                                                        @RequestBody Search search) {
         Shop shop = shopService.findByIdAccount(id);
         Page<Product> products = productService.showProductShopBySearch(shop.getId(),pageable, search);
@@ -61,7 +61,7 @@ public class ProductController {
     public ResponseEntity<Page<Product>> listProductOfShopCrudAll(@PathVariable("id") Long id,
                                                                @PageableDefault() Pageable pageable) {
         Shop shop = shopService.findByIdAccount(id);
-        Page<Product> products = productService.showProductOfShop(shop.getId(), pageable);
+        Page<Product> products = productService.showProductOfShopAll(shop.getId(), pageable);
         if (products.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

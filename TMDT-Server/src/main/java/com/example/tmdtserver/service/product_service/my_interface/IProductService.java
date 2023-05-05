@@ -11,6 +11,7 @@ import java.util.List;
 
 public interface IProductService extends ICrudService<Product> {
     Page<Product> showProductOfShop(Long id, Pageable pageable);
+    Page<Product> showProductOfShopAll(Long id, Pageable pageable);
 
     Page<Product> showProductBySearch(Pageable pageable,Search search);
     Page<Product> showProductShopBySearch(Long id,Pageable pageable,Search search);

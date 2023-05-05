@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface IVoucherService extends ICrudService<Voucher> {
     Page<Voucher> showAllVoucher(Pageable pageable, Long id);
+
     Double percentVoucher(Long id,String voucher);
 
     Voucher updateVoucher(Long id,String voucher);

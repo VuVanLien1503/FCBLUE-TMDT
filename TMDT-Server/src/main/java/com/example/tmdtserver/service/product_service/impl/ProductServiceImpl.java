@@ -1,5 +1,6 @@
 package com.example.tmdtserver.service.product_service.impl;
 
+import com.example.tmdtserver.model.bill.Bill;
 import com.example.tmdtserver.model.product.EvaluateDetail;
 import com.example.tmdtserver.model.product.Product;
 import com.example.tmdtserver.model.Search;
@@ -40,12 +41,19 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public void remove(Long id) {
+        Bill bill = billRepository.getBillByIdProduct(id);
+        billRepository.updateBillById5(bill.getId());
         productRepository.deleteProductByIdProduct(id);
     }
 
     @Override
     public Page<Product> showProductOfShop(Long id, Pageable pageable) {
         return productRepository.showProductOfShop(id, pageable);
+    }
+
+    @Override
+    public Page<Product> showProductOfShopAll(Long id, Pageable pageable) {
+        return productRepository.showProductOfShopAll(id,pageable);
     }
 
 

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class VoucherServiceImpl implements IVoucherService{
+public class VoucherServiceImpl implements IVoucherService {
     @Autowired
     private IVoucherRepository voucherRepository;
 
@@ -42,35 +42,37 @@ public class VoucherServiceImpl implements IVoucherService{
     @Override
     public Double percentVoucher(Long id, String voucher) {
         List<Voucher> voucherList = voucherRepository.showAllListVoucher(id);
-        if (!voucherList.isEmpty()){
+        boolean check = false;
+        Double value = 0D;
+        if (!voucherList.isEmpty()) {
             for (int i = 0; i < voucherList.size(); i++) {
-                if (voucherList.get(i).getName().equals(voucher)){
-                    if (voucherList.get(i).getQuantity()!=0){
-                        return voucherList.get(i).getPercent();
-                    }else {
-                        return 0D;
+                if (voucherList.get(i).getName().equals(voucher)) {
+                    if (voucherList.get(i).getQuantity() != 0) {
+                        check = true;
+                        value = voucherList.get(i).getPercent();
                     }
                 }
             }
-            return 0D;
-        }else{
-            return 0D;
+            if (check) {
+                return value;
+            }
         }
+        return 0D;
     }
 
     @Override
     public Voucher updateVoucher(Long id, String voucher) {
         List<Voucher> voucherList = voucherRepository.showAllListVoucher(id);
         Voucher voucherUpdate;
-        if (!voucherList.isEmpty()){
+        if (!voucherList.isEmpty()) {
             for (int i = 0; i < voucherList.size(); i++) {
-                if (voucherList.get(i).getName().equals(voucher)){
+                if (voucherList.get(i).getName().equals(voucher)) {
                     voucherUpdate = voucherList.get(i);
-                    if (voucherList.get(i).getQuantity()!=0){
-                        voucherUpdate.setQuantity(voucherUpdate.getQuantity() -1);
+                    if (voucherList.get(i).getQuantity() != 0) {
+                        voucherUpdate.setQuantity(voucherUpdate.getQuantity() - 1);
                         voucherRepository.save(voucherUpdate);
                         return voucherUpdate;
-                    }else {
+                    } else {
                         return voucherUpdate;
                     }
                 }

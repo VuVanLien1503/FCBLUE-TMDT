@@ -16,8 +16,10 @@ import javax.transaction.Transactional;
 @Transactional
 public interface IProductRepository extends JpaRepository<Product, Long> {
     //Hiển thị tất cả các sản phẩm có trong shop
-    @Query(value = "select  p from Product p where p.shop.id = :id and p.status = true ")
+    @Query(value = "select  p from Product p where p.shop.id = :id and p.status = true order by p.date desc ")
     Page<Product> showProductOfShop(@Param("id") Long id, Pageable pageable);
+    @Query(value = "select  p from Product p where p.shop.id = :id ")
+    Page<Product> showProductOfShopAll(@Param("id") Long id, Pageable pageable);
 
     // tìm kiếm sản phẩm trong 1 shop
     @Query(value = "select p from Product as p where p.shop.id = :id and p.category.id=:idCategory and p.status=true ")
